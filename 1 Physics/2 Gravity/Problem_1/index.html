@@ -6,13 +6,13 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <link href="../../../img/favicon.ico" rel="shortcut icon"/>
-<title>Problem 1 - Physics and Mathematics</title>
+<title>Orbital Period and Orbital Radius - Physics and Mathematics</title>
 <link href="../../../css/theme.css" rel="stylesheet"/>
 <link href="../../../css/theme_extra.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
 <script>
         // Current page data
-        var mkdocs_page_name = "Problem 1";
+        var mkdocs_page_name = "Orbital Period and Orbital Radius";
         var mkdocs_page_input_path = "1 Physics/2 Gravity/Problem_1.md";
         var mkdocs_page_url = null;
       </script>
@@ -54,8 +54,24 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal current">2 Gravity</a>
 <ul class="current">
-<li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
+<li class="toctree-l2 current"><a class="reference internal current" href="#">Orbital Period and Orbital Radius</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#1-motivation">1. Motivation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#2-key-equations">2. Key Equations</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#orbital-motion">Orbital Motion</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#3-analysis">3. Analysis</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#4-implementation">4. Implementation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#5-practical-applications">5. Practical Applications</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#6-limitations-and-extensions">6. Limitations and Extensions</a>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Problem_2/">Problem 2</a>
@@ -163,7 +179,7 @@
 <li><a aria-label="Docs" class="icon icon-home" href="../../.."></a></li>
 <li class="breadcrumb-item">1 Physics</li>
 <li class="breadcrumb-item">2 Gravity</li>
-<li class="breadcrumb-item active">Problem 1</li>
+<li class="breadcrumb-item active">Orbital Period and Orbital Radius</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -171,7 +187,45 @@
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
-<h1 id="problem-1">Problem 1</h1>
+<h1 id="orbital-period-and-orbital-radius">Orbital Period and Orbital Radius</h1>
+<h2 id="1-motivation">1. Motivation</h2>
+<p>Kepler's Third Law states that the square of the orbital period is proportional to the cube of the orbital radius. This fundamental relationship in celestial mechanics allows scientists to predict planetary motions and analyze gravitational interactions across various scales. Understanding this law is crucial for applications in astrophysics, satellite navigation, and space exploration.</p>
+<h2 id="2-key-equations">2. Key Equations</h2>
+<h3 id="orbital-motion">Orbital Motion</h3>
+<p>For a body orbiting under gravitational influence:
+- Centripetal force: [ F_c = \frac{m v^2}{r} ]
+- Gravitational force: [ F_g = \frac{G M m}{r^2} ]</p>
+<p>Equating the two:
+[ \frac{m v^2}{r} = \frac{G M m}{r^2} ]</p>
+<p>Since orbital velocity is <span class="arithmatex">\( v = \frac{2\pi r}{T} \)</span>, substituting gives:
+[ \frac{m}{r} \left( \frac{4\pi^2 r^2}{T^2} \right) = \frac{G M m}{r^2} ]</p>
+<p>Simplifying:
+[ T^2 = \frac{4\pi^2 r^3}{G M} ]</p>
+<p>This confirms Kepler’s Third Law: the square of the orbital period is proportional to the cube of the orbital radius.</p>
+<h2 id="3-analysis">3. Analysis</h2>
+<ul>
+<li>The law applies to planets, moons, and artificial satellites.</li>
+<li>Helps in calculating planetary masses and distances.</li>
+<li>Used in space mission planning and astrophysical modeling.</li>
+</ul>
+<h2 id="4-implementation">4. Implementation</h2>
+<ul>
+<li>Develop a Python script to simulate circular orbits.</li>
+<li>Verify Kepler’s Third Law through computational analysis.</li>
+<li>Generate plots showing the relationship between orbital period and radius.</li>
+</ul>
+<h2 id="5-practical-applications">5. Practical Applications</h2>
+<ul>
+<li>Determining satellite orbits around Earth.</li>
+<li>Predicting planetary motion in exoplanetary systems.</li>
+<li>Understanding the mechanics of binary star systems.</li>
+</ul>
+<h2 id="6-limitations-and-extensions">6. Limitations and Extensions</h2>
+<ul>
+<li>Kepler’s law applies ideally to two-body systems; real-world deviations occur due to perturbations.</li>
+<li>Can be extended to elliptical orbits using generalized forms.</li>
+<li>Future work can include analyzing multi-body interactions in complex gravitational systems.</li>
+</ul>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
