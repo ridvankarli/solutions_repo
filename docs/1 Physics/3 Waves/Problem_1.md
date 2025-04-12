@@ -320,9 +320,6 @@ constructive, destructive = analyze_interference_regions(X, Y, Z)
 ![alt text](5.png)
 ![alt text](6.png)
 
-
-
-
 ## 4. Results and Analysis
 
 ### 4.1 Equilateral Triangle (3 Sources)
