@@ -6,13 +6,13 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <link href="../../../img/favicon.ico" rel="shortcut icon"/>
-<title>Equivalent Resistance Using Graph Theory - Physics and Mathematics</title>
+<title>Calculating Equivalent Resistance Using Graph Theory - Physics and Mathematics</title>
 <link href="../../../css/theme.css" rel="stylesheet"/>
 <link href="../../../css/theme_extra.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
 <script>
         // Current page data
-        var mkdocs_page_name = "Equivalent Resistance Using Graph Theory";
+        var mkdocs_page_name = "Calculating Equivalent Resistance Using Graph Theory";
         var mkdocs_page_input_path = "1 Physics/5 Circuits/Problem_1.md";
         var mkdocs_page_url = null;
       </script>
@@ -76,35 +76,45 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal current">5 Circuits</a>
 <ul class="current">
-<li class="toctree-l2 current"><a class="reference internal current" href="#">Equivalent Resistance Using Graph Theory</a>
+<li class="toctree-l2 current"><a class="reference internal current" href="#">Calculating Equivalent Resistance Using Graph Theory</a>
 <ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a>
+<li class="toctree-l3"><a class="reference internal" href="#1-introduction">1. Introduction</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#algorithm-implementation">Algorithm Implementation</a>
+<li class="toctree-l3"><a class="reference internal" href="#2-theoretical-background">2. Theoretical Background</a>
 <ul>
-<li class="toctree-l4"><a class="reference internal" href="#series-reduction">Series Reduction</a>
+<li class="toctree-l4"><a class="reference internal" href="#21-circuit-as-a-graph">2.1 Circuit as a Graph</a>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="#parallel-reduction">Parallel Reduction</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#node-elimination">Node Elimination</a>
+<li class="toctree-l4"><a class="reference internal" href="#22-equivalent-resistance-calculation-methods">2.2 Equivalent Resistance Calculation Methods</a>
 </li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#test-examples">Test Examples</a>
+<li class="toctree-l3"><a class="reference internal" href="#3-algorithm-implementation">3. Algorithm Implementation</a>
 <ul>
-<li class="toctree-l4"><a class="reference internal" href="#1-simple-series-circuit">1. Simple Series Circuit</a>
+<li class="toctree-l4"><a class="reference internal" href="#31-full-python-implementation">3.1 Full Python Implementation</a>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="#2-simple-parallel-circuit">2. Simple Parallel Circuit</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#3-complex-circuit">3. Complex Circuit</a>
+<li class="toctree-l4"><a class="reference internal" href="#32-algorithm-explanation">3.2 Algorithm Explanation</a>
 </li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#efficiency-analysis">Efficiency Analysis</a>
+<li class="toctree-l3"><a class="reference internal" href="#4-test-cases-and-analysis">4. Test Cases and Analysis</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#41-test-case-1-simple-series-circuit">4.1 Test Case 1: Simple Series Circuit</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#potential-improvements">Potential Improvements</a>
+<li class="toctree-l4"><a class="reference internal" href="#42-test-case-2-simple-parallel-circuit">4.2 Test Case 2: Simple Parallel Circuit</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#conclusion">Conclusion</a>
+<li class="toctree-l4"><a class="reference internal" href="#43-test-case-3-wheatstone-bridge-circuit">4.3 Test Case 3: Wheatstone Bridge Circuit</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#5-algorithm-efficiency-and-improvements">5. Algorithm Efficiency and Improvements</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#51-efficiency-analysis">5.1 Efficiency Analysis</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#52-potential-improvements">5.2 Potential Improvements</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#6-conclusion">6. Conclusion</a>
 </li>
 </ul>
 </li>
@@ -191,7 +201,7 @@
 <li><a aria-label="Docs" class="icon icon-home" href="../../.."></a></li>
 <li class="breadcrumb-item">1 Physics</li>
 <li class="breadcrumb-item">5 Circuits</li>
-<li class="breadcrumb-item active">Equivalent Resistance Using Graph Theory</li>
+<li class="breadcrumb-item active">Calculating Equivalent Resistance Using Graph Theory</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -199,264 +209,518 @@
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
-<h1 id="equivalent-resistance-using-graph-theory">Equivalent Resistance Using Graph Theory</h1>
-<h2 id="introduction">Introduction</h2>
-<p>Calculating equivalent resistance is a fundamental problem in electrical circuits, essential for understanding and designing efficient systems. While traditional methods involve iteratively applying series and parallel resistor rules, these approaches can become cumbersome for complex circuits with many components. Graph theory offers a powerful alternative, providing a structured and algorithmic way to analyze circuits.</p>
-<p>By representing a circuit as a graph—where nodes correspond to junctions and edges represent resistors with weights equal to their resistance values—we can systematically simplify even the most intricate networks. This method streamlines calculations and enables automated analysis, making it particularly useful in circuit simulation software, optimization problems, and network design.</p>
-<h2 id="algorithm-implementation">Algorithm Implementation</h2>
-<p>The implementation uses NetworkX to represent and manipulate the circuit graph. The main algorithm iteratively simplifies the circuit graph until only the source and target nodes remain connected by a single equivalent resistor.</p>
+<h1 id="calculating-equivalent-resistance-using-graph-theory">Calculating Equivalent Resistance Using Graph Theory</h1>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>Electrical circuit analysis often requires calculating the equivalent resistance between two points in a network of resistors. While traditional methods like series and parallel combinations work well for simple circuits, they become cumbersome for complex networks. This document explores how graph theory provides an elegant solution to this problem, enabling systematic analysis of arbitrary resistor networks.</p>
+<p>We will implement a full algorithm (Option 2) that calculates the equivalent resistance of complex circuits by representing them as graphs and applying graph reduction techniques.</p>
+<h2 id="2-theoretical-background">2. Theoretical Background</h2>
+<h3 id="21-circuit-as-a-graph">2.1 Circuit as a Graph</h3>
+<p>An electrical circuit can be represented as a graph where:
+- Nodes (vertices) represent junctions or connection points
+- Edges represent resistors
+- Edge weights correspond to resistance values</p>
+<p>For a circuit with two terminals (input and output), the equivalent resistance is the effective resistance between these two terminals when the circuit is viewed as a single resistor.</p>
+<h3 id="22-equivalent-resistance-calculation-methods">2.2 Equivalent Resistance Calculation Methods</h3>
+<p>Several methods exist for calculating equivalent resistance in a graph:</p>
+<ol>
+<li><strong>Series-Parallel Reduction</strong>: Iteratively identify series and parallel connections and reduce them</li>
+<li><strong>Node Elimination (Y-Δ Transformation)</strong>: Systematically eliminate internal nodes</li>
+<li><strong>Matrix-Based Methods</strong>: Use conductance matrices to solve for equivalent resistance</li>
+</ol>
+<p>Our implementation will focus on the first two methods, combining series-parallel reduction with Y-Δ transformations for circuits that cannot be reduced using simple series-parallel rules.</p>
+<h2 id="3-algorithm-implementation">3. Algorithm Implementation</h2>
+<p>Our implementation uses Python with the NetworkX library for graph manipulation. The algorithm follows these steps:</p>
+<ol>
+<li>Represent the circuit as a weighted graph</li>
+<li>Iteratively apply series and parallel reductions where possible</li>
+<li>When no more series-parallel reductions are possible, apply Y-Δ transformations</li>
+<li>Continue until the graph is reduced to a single edge between the terminal nodes</li>
+</ol>
+<h3 id="31-full-python-implementation">3.1 Full Python Implementation</h3>
 <pre><code class="language-python">import networkx as nx
+import matplotlib.pyplot as plt
 import numpy as np
+from copy import deepcopy
 
-class EquivalentResistanceCalculator:
+class CircuitSolver:
     def __init__(self):
+        """Initialize the circuit solver."""
         self.graph = None
-        self.simplified = False
+        self.original_graph = None
 
-    def load_circuit(self, graph):
+    def create_circuit_graph(self, edges_with_resistances, source, target):
         """
-        Loads a circuit graph where:
-        - Nodes represent junctions
-        - Edges represent resistors with resistance as weights
-        """
-        self.graph = graph.copy()
-        self.simplified = False
-        return self
-
-    def calculate_equivalent_resistance(self, source, target):
-        """
-        Calculate the equivalent resistance between two nodes in the circuit.
+        Create a graph representation of a circuit.
 
         Args:
-            source: Source node
-            target: Target node
-
-        Returns:
-            float: The equivalent resistance between source and target
+            edges_with_resistances: List of tuples (node1, node2, resistance)
+            source: Source node (input terminal)
+            target: Target node (output terminal)
         """
-        if not self.graph:
-            raise ValueError("No circuit loaded")
+        G = nx.Graph()
 
-        if source not in self.graph or target not in self.graph:
-            raise ValueError("Source or target node not in circuit")
+        # Add edges with resistances as weights
+        for u, v, r in edges_with_resistances:
+            G.add_edge(u, v, resistance=r)
 
-        # Create a working copy of the graph
-        working_graph = self.graph.copy()
+        self.graph = G
+        self.original_graph = deepcopy(G)
+        self.source = source
+        self.target = target
 
-        # Keep simplifying until we have only the source and target nodes
-        while len(working_graph.nodes) &gt; 2 or len(working_graph.edges) &gt; 1:
-            # Try to simplify series resistors
-            series_simplified = self._simplify_series(working_graph, source, target)
+        return G
 
-            # Try to simplify parallel resistors
-            parallel_simplified = self._simplify_parallel(working_graph)
+    def load_from_file(self, filename):
+        """Load circuit from a file (format: node1 node2 resistance)."""
+        edges_with_resistances = []
+        source = None
+        target = None
 
-            # If no simplification was possible, we need a more advanced technique
-            if not (series_simplified or parallel_simplified):
-                # Use Y-Δ transformation or node elimination
-                self._eliminate_node(working_graph, source, target)
+        with open(filename, 'r') as f:
+            lines = f.readlines()
+            for i, line in enumerate(lines):
+                if i == 0:  # First line contains source and target nodes
+                    source, target = line.strip().split()
+                else:
+                    u, v, r = line.strip().split()
+                    edges_with_resistances.append((u, v, float(r)))
 
-        # After simplification, there should be a single edge between source and target
-        if len(working_graph.edges) == 1:
-            edge_data = list(working_graph.edges(data=True))[0]
-            return edge_data[2]['weight']
-        else:
-            # If there are no edges, the nodes are disconnected
-            return float('inf')
-</code></pre>
-<h3 id="series-reduction">Series Reduction</h3>
-<p>The algorithm identifies nodes with exactly two connections (degree 2) that aren't the source or target nodes. These nodes are intermediate points in series connections and can be eliminated by combining the resistances.</p>
-<pre><code class="language-python">def _simplify_series(self, graph, source, target):
-    """
-    Identify and simplify series resistors in the circuit.
-    A node with exactly two connections can be eliminated.
-    """
-    simplified = False
+        return self.create_circuit_graph(edges_with_resistances, source, target)
 
-    # Find nodes that are in series (degree 2 and not source/target)
-    series_nodes = [node for node in graph.nodes() 
-                  if node != source and node != target and graph.degree(node) == 2]
+    def visualize_circuit(self, G=None, title="Circuit Graph"):
+        """Visualize the circuit graph with resistance values on edges."""
+        if G is None:
+            G = self.graph
 
-    for node in series_nodes:
-        # Get the two adjacent nodes and edge weights
-        neighbors = list(graph.neighbors(node))
-        if len(neighbors) != 2:
-            continue
+        plt.figure(figsize=(10, 7))
+        pos = nx.spring_layout(G, seed=42)  # Consistent layout
 
-        n1, n2 = neighbors
+        # Draw the graph
+        nx.draw(G, pos, with_labels=True, node_color='lightblue', 
+                node_size=500, font_weight='bold')
 
-        # Calculate the combined resistance
-        r1 = graph[node][n1]['weight']
-        r2 = graph[node][n2]['weight']
-        combined_resistance = r1 + r2
+        # Draw edge labels (resistances)
+        edge_labels = {(u, v): f"{data['resistance']:.2f} Ω" 
+                       for u, v, data in G.edges(data=True)}
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
 
-        # Remove the middle node and add a direct edge
-        graph.remove_node(node)
-        graph.add_edge(n1, n2, weight=combined_resistance)
+        plt.title(title)
+        plt.axis('off')
+        plt.tight_layout()
+        plt.show()
 
-        simplified = True
-        break  # We modified the graph, so break the loop
+    def is_series(self, G, node):
+        """Check if a node is in a series connection (exactly two connections)."""
+        return G.degree(node) == 2 and node != self.source and node != self.target
 
-    return simplified
-</code></pre>
-<h3 id="parallel-reduction">Parallel Reduction</h3>
-<p>The algorithm looks for multiple edges between the same pair of nodes, representing parallel resistors, and combines them according to the parallel resistance formula.</p>
-<pre><code class="language-python">def _simplify_parallel(self, graph):
-    """
-    Identify and simplify parallel resistors in the circuit.
-    Multiple edges between the same nodes are combined.
-    """
-    simplified = False
+    def is_parallel(self, G, u, v):
+        """Check if two nodes have multiple edges between them (parallel connection)."""
+        return G.number_of_edges(u, v) &gt; 1
 
-    # Find parallel edges
-    for u in graph.nodes():
-        for v in graph.nodes():
-            if u &gt;= v:  # Skip repeated pairs and self-loops
-                continue
+    def reduce_series(self, G):
+        """
+        Reduce series resistors in the graph.
+        Returns True if a reduction was made, False otherwise.
+        """
+        for node in list(G.nodes()):
+            if self.is_series(G, node):
+                # Get the two neighboring nodes
+                neighbors = list(G.neighbors(node))
+                n1, n2 = neighbors[0], neighbors[1]
 
-            if graph.has_edge(u, v):
-                # Get all parallel edges between u and v
-                parallel_edges = list(graph.get_edge_data(u, v).items())
+                # Get the resistances
+                r1 = G[n1][node]['resistance']
+                r2 = G[node][n2]['resistance']
 
-                if len(parallel_edges) &gt; 1:
-                    # Calculate combined resistance (1/R = 1/R1 + 1/R2 + ...)
-                    combined_conductance = sum(1/data['weight'] for _, data in parallel_edges)
-                    combined_resistance = 1/combined_conductance
+                # Calculate equivalent resistance for series (R = R1 + R2)
+                r_eq = r1 + r2
 
-                    # Remove all existing edges
-                    graph.remove_edge(u, v)
+                # Remove the middle node and add a direct connection
+                G.remove_node(node)
+                G.add_edge(n1, n2, resistance=r_eq)
 
-                    # Add new edge with combined resistance
-                    graph.add_edge(u, v, weight=combined_resistance)
+                print(f"Series reduction: removed node {node}, new resistance between {n1}-{n2}: {r_eq:.2f} Ω")
+                return True
 
-                    simplified = True
-                    break  # We modified the graph, so break the loop
-
-        if simplified:
-            break
-
-    return simplified
-</code></pre>
-<h3 id="node-elimination">Node Elimination</h3>
-<p>For complex configurations where simple series or parallel reductions aren't possible, the algorithm uses node elimination. This technique eliminates a non-terminal node by creating new connections between all its neighbors, with appropriate equivalent resistances.</p>
-<pre><code class="language-python">def _eliminate_node(self, graph, source, target):
-    """
-    Eliminate a node using the node elimination technique.
-    Choose a node that's neither source nor target and eliminate it.
-    """
-    # Find a node to eliminate (not source or target)
-    nodes_to_consider = [n for n in graph.nodes() if n != source and n != target]
-
-    if not nodes_to_consider:
         return False
 
-    node_to_eliminate = nodes_to_consider[0]
-    neighbors = list(graph.neighbors(node_to_eliminate))
+    def reduce_parallel(self, G):
+        """
+        Reduce parallel resistors in the graph.
+        Returns True if a reduction was made, False otherwise.
+        """
+        for u, v, data in list(G.edges(data=True)):
+            # Skip checking if the edge no longer exists (might have been removed in a previous iteration)
+            if not G.has_edge(u, v):
+                continue
 
-    # Process each pair of neighbors
-    for i in range(len(neighbors)):
-        for j in range(i+1, len(neighbors)):
-            n1, n2 = neighbors[i], neighbors[j]
+            if self.is_parallel(G, u, v):
+                # Get all parallel resistances between these nodes
+                resistances = [G[u][v][i]['resistance'] for i in range(G.number_of_edges(u, v))]
 
-            # Calculate resistance between n1 and n2 through node_to_eliminate
-            r1 = graph[node_to_eliminate][n1]['weight']
-            r2 = graph[node_to_eliminate][n2]['weight']
+                # Calculate equivalent resistance for parallel (1/R = 1/R1 + 1/R2 + ...)
+                r_eq = 1.0 / sum(1.0 / r for r in resistances)
 
-            # Add new edge or update existing one
-            if graph.has_edge(n1, n2):
-                existing_r = graph[n1][n2]['weight']
-                # Parallel combination of the new path and existing path
-                new_r = 1 / (1/existing_r + 1/(r1 + r2))
-                graph[n1][n2]['weight'] = new_r
+                # Remove all edges and add a single equivalent edge
+                G.remove_edges_from([(u, v, i) for i in range(G.number_of_edges(u, v))])
+                G.add_edge(u, v, resistance=r_eq)
+
+                print(f"Parallel reduction: between {u}-{v}, resistances {resistances}, new resistance: {r_eq:.2f} Ω")
+                return True
+
+        return False
+
+    def perform_wye_delta_transform(self, G):
+        """
+        Apply Y-Δ (star-delta) transformation on applicable nodes.
+        Returns True if a transformation was made, False otherwise.
+        """
+        for node in list(G.nodes()):
+            # Skip terminal nodes
+            if node == self.source or node == self.target:
+                continue
+
+            # Y-Δ transformation requires a node with exactly 3 connections
+            if G.degree(node) == 3:
+                neighbors = list(G.neighbors(node))
+                n1, n2, n3 = neighbors
+
+                # Get the resistances of the Y (star) configuration
+                r1 = G[node][n1]['resistance']
+                r2 = G[node][n2]['resistance']
+                r3 = G[node][n3]['resistance']
+
+                # Calculate the resistances for the Δ (delta) configuration
+                r12 = (r1 * r2 + r2 * r3 + r3 * r1) / r3
+                r23 = (r1 * r2 + r2 * r3 + r3 * r1) / r1
+                r31 = (r1 * r2 + r2 * r3 + r3 * r1) / r2
+
+                # Remove the center node of the Y
+                G.remove_node(node)
+
+                # Add the delta connections
+                G.add_edge(n1, n2, resistance=r12)
+                G.add_edge(n2, n3, resistance=r23)
+                G.add_edge(n3, n1, resistance=r31)
+
+                print(f"Y-Δ transform: removed node {node}, new resistances: {n1}-{n2}: {r12:.2f} Ω, {n2}-{n3}: {r23:.2f} Ω, {n3}-{n1}: {r31:.2f} Ω")
+                return True
+
+        return False
+
+    def calculate_equivalent_resistance(self):
+        """
+        Calculate the equivalent resistance of the circuit between source and target.
+        """
+        # Make a copy of the graph to work with
+        G = deepcopy(self.graph)
+
+        step = 1
+        while True:
+            print(f"\nStep {step}:")
+
+            # Try series reduction
+            if self.reduce_series(G):
+                step += 1
+                continue
+
+            # Try parallel reduction
+            if self.reduce_parallel(G):
+                step += 1
+                continue
+
+            # If no series or parallel reductions are possible, try Y-Δ transformation
+            if self.perform_wye_delta_transform(G):
+                step += 1
+                continue
+
+            # If we reach here, no more reductions are possible
+            break
+
+        # Check if the graph has been reduced to a single resistor between source and target
+        if G.number_of_edges() == 1 and G.has_edge(self.source, self.target):
+            equiv_resistance = G[self.source][self.target]['resistance']
+            print(f"\nFinal equivalent resistance: {equiv_resistance:.4f} Ω")
+            return equiv_resistance
+        else:
+            # If not fully reduced, we need more advanced methods (not implemented here)
+            print("\nWarning: Circuit could not be fully reduced using these methods.")
+            print("The graph has", G.number_of_nodes(), "nodes and", G.number_of_edges(), "edges.")
+
+            # If source and target are still connected, we can try to estimate the resistance
+            if nx.has_path(G, self.source, self.target):
+                # Construct the admittance (conductance) matrix
+                nodes = list(G.nodes())
+                n = len(nodes)
+
+                # Create node index mapping
+                node_to_idx = {node: i for i, node in enumerate(nodes)}
+
+                # Initialize conductance matrix
+                Y = np.zeros((n, n))
+
+                # Fill the conductance matrix
+                for u, v, data in G.edges(data=True):
+                    i, j = node_to_idx[u], node_to_idx[v]
+                    g = 1.0 / data['resistance']  # Conductance = 1/Resistance
+                    Y[i, i] += g  # Diagonal: sum of conductances
+                    Y[j, j] += g
+                    Y[i, j] -= g  # Off-diagonal: negative conductance
+                    Y[j, i] -= g
+
+                # Remove one row and column to make the matrix non-singular
+                # (usually the row and column corresponding to the reference node)
+                ref_idx = node_to_idx[self.target]  # Use target as reference
+                Y_reduced = np.delete(np.delete(Y, ref_idx, 0), ref_idx, 1)
+
+                # Create current vector (1A into source, -1A out of target)
+                I = np.zeros(n-1)
+                if node_to_idx[self.source] &lt; ref_idx:
+                    I[node_to_idx[self.source]] = 1
+                else:
+                    I[node_to_idx[self.source]-1] = 1  # Adjust index if source comes after target
+
+                # Solve for node voltages: V = Y^-1 * I
+                try:
+                    V = np.linalg.solve(Y_reduced, I)
+
+                    # The voltage at the source node is the equivalent resistance (with 1A current)
+                    source_idx = node_to_idx[self.source]
+                    if source_idx &lt; ref_idx:
+                        equiv_resistance = V[source_idx]
+                    else:
+                        equiv_resistance = V[source_idx-1]
+
+                    print(f"Equivalent resistance using matrix method: {equiv_resistance:.4f} Ω")
+                    return equiv_resistance
+                except np.linalg.LinAlgError:
+                    print("Matrix is singular, cannot solve using this method.")
+                    return None
             else:
-                # New direct path
-                graph.add_edge(n1, n2, weight=r1 + r2)
+                print("Source and target are disconnected.")
+                return float('inf')  # Infinite resistance
 
-    # Remove the eliminated node
-    graph.remove_node(node_to_eliminate)
-    return True
-</code></pre>
-<h2 id="test-examples">Test Examples</h2>
-<h3 id="1-simple-series-circuit">1. Simple Series Circuit</h3>
-<pre><code>A -- 2Ω -- B -- 3Ω -- C
-</code></pre>
-<p>Expected result: 5Ω (2Ω + 3Ω)</p>
-<pre><code class="language-python">def test_simple_series():
-    """Test a simple series circuit."""
-    circuit = create_circuit([
-        ('A', 'B', 2),
-        ('B', 'C', 3)
-    ])
-    calculator = EquivalentResistanceCalculator()
-    result = calculator.load_circuit(circuit).calculate_equivalent_resistance('A', 'C')
+    def analyze_circuit(self):
+        """Full analysis of the circuit, with visualization."""
+        print("Original Circuit:")
+        self.visualize_circuit(self.original_graph, "Original Circuit")
 
-    print(f"Simple Series Circuit: {result}Ω (Expected: 5Ω)")
-    return result
-</code></pre>
-<h3 id="2-simple-parallel-circuit">2. Simple Parallel Circuit</h3>
-<pre><code>A -- 6Ω -- B
-|         |
-+-- 3Ω -- +
-</code></pre>
-<p>Expected result: 2Ω (1/R = 1/6 + 1/3)</p>
-<pre><code class="language-python">def test_simple_parallel():
-    """Test a simple parallel circuit."""
-    circuit = create_circuit([
-        ('A', 'B', 6),
-        ('A', 'B', 3)
-    ])
-    calculator = EquivalentResistanceCalculator()
-    result = calculator.load_circuit(circuit).calculate_equivalent_resistance('A', 'B')
+        equiv_r = self.calculate_equivalent_resistance()
 
-    print(f"Simple Parallel Circuit: {result}Ω (Expected: 2Ω)")
-    return result
-</code></pre>
-<h3 id="3-complex-circuit">3. Complex Circuit</h3>
-<pre><code>     +-- 3Ω -- B -- 1Ω --+
-     |                    |
-A ---+-- 2Ω -- C -- 4Ω --+--- E
-     |                    |
-     +-- 5Ω -- D -- 2Ω --+
-</code></pre>
-<p>This circuit contains both series and parallel elements, plus mesh configurations. The algorithm handles it by applying node elimination when necessary.</p>
-<pre><code class="language-python">def test_complex_circuit():
-    """Test a complex circuit with both series and parallel components."""
-    circuit = create_circuit([
-        ('A', 'B', 3),
-        ('B', 'E', 1),
-        ('A', 'C', 2),
-        ('C', 'E', 4),
-        ('A', 'D', 5),
-        ('D', 'E', 2)
-    ])
-    calculator = EquivalentResistanceCalculator()
-    result = calculator.load_circuit(circuit).calculate_equivalent_resistance('A', 'E')
+        # Visualize the reduced circuit
+        reduced_graph = deepcopy(self.graph)
+        if nx.has_path(reduced_graph, self.source, self.target):
+            # If the circuit wasn't fully reduced, show the final state
+            self.visualize_circuit(reduced_graph, f"Reduced Circuit (Req = {equiv_r:.4f} Ω)")
 
-    print(f"Complex Circuit: {result}Ω")
-    return result
+        return equiv_r
+
+# Example circuits to test
+def test_simple_series():
+    solver = CircuitSolver()
+
+    # Simple series circuit: A--3Ω--B--5Ω--C
+    edges = [
+        ('A', 'B', 3.0),
+        ('B', 'C', 5.0)
+    ]
+
+    solver.create_circuit_graph(edges, 'A', 'C')
+    print("=== Testing Simple Series Circuit ===")
+    equiv_r = solver.analyze_circuit()
+    print(f"Expected: 8.0 Ω, Got: {equiv_r:.4f} Ω")
+    print("=====================================\n")
+
+def test_simple_parallel():
+    solver = CircuitSolver()
+
+    # Simple parallel circuit: A--10Ω--B
+    #                          |       |
+    #                          --20Ω---
+    edges = [
+        ('A', 'B', 10.0),
+        ('A', 'B', 20.0)
+    ]
+
+    solver.create_circuit_graph(edges, 'A', 'B')
+    print("=== Testing Simple Parallel Circuit ===")
+    equiv_r = solver.analyze_circuit()
+    expected = (10.0 * 20.0) / (10.0 + 20.0)  # 6.67 Ω
+    print(f"Expected: {expected:.4f} Ω, Got: {equiv_r:.4f} Ω")
+    print("======================================\n")
+
+def test_bridge_circuit():
+    solver = CircuitSolver()
+
+    # Wheatstone bridge circuit:
+    #      A
+    #     / \
+    #   5Ω  10Ω
+    #   /     \
+    #  B       C
+    #   \     /
+    #   15Ω  20Ω
+    #     \ /
+    #      D
+    edges = [
+        ('A', 'B', 5.0),
+        ('A', 'C', 10.0),
+        ('B', 'D', 15.0),
+        ('C', 'D', 20.0),
+        ('B', 'C', 25.0)  # Bridge resistor
+    ]
+
+    solver.create_circuit_graph(edges, 'A', 'D')
+    print("=== Testing Wheatstone Bridge Circuit ===")
+    equiv_r = solver.analyze_circuit()
+    print(f"Equivalent resistance: {equiv_r:.4f} Ω")
+    print("=======================================\n")
+
+if __name__ == "__main__":
+    test_simple_series()
+    test_simple_parallel()
+    test_bridge_circuit()
 </code></pre>
-<h2 id="efficiency-analysis">Efficiency Analysis</h2>
-<ul>
-<li><strong>Time Complexity</strong>: O(|V|³), where |V| is the number of nodes. This is dominated by the node elimination step which considers all pairs of neighbors.</li>
-<li><strong>Space Complexity</strong>: O(|V|² + |E|) to store the graph representation.</li>
-</ul>
-<h2 id="potential-improvements">Potential Improvements</h2>
+<p><img alt="alt text" src="../1-1.png"/>
+<img alt="alt text" src="../2.png"/>
+<img alt="alt text" src="../3.png"/>
+<img alt="alt text" src="../4.png"/>
+<img alt="alt text" src="../5.png"/>
+<img alt="alt text" src="../6.png"/></p>
+<h3 id="32-algorithm-explanation">3.2 Algorithm Explanation</h3>
+<p>The implementation follows these key steps:</p>
 <ol>
+<li><strong>Graph Representation</strong>:</li>
+<li>Create a graph where edges represent resistors with resistance values as weights</li>
 <li>
-<p><strong>Optimized Node Selection</strong>: Instead of arbitrarily picking the first available node for elimination, select nodes based on their degree or other heuristics to minimize computational effort.</p>
+<p>Identify source and target nodes (the terminals between which we want to calculate equivalent resistance)</p>
 </li>
 <li>
-<p><strong>Matrix-Based Approach</strong>: For highly complex circuits, implement a more efficient matrix-based approach using modified nodal analysis or the Laplacian matrix of the graph.</p>
+<p><strong>Series Reduction</strong>:</p>
+</li>
+<li>Identify nodes with exactly two connections (except terminals)</li>
+<li>
+<p>Replace the node and its two connected edges with a single edge with resistance equal to the sum of the original resistances</p>
 </li>
 <li>
-<p><strong>Parallelization</strong>: For very large circuits, parallelize certain operations to improve performance.</p>
+<p><strong>Parallel Reduction</strong>:</p>
+</li>
+<li>Identify pairs of nodes connected by multiple edges</li>
+<li>
+<p>Replace the multiple edges with a single edge with resistance equal to the reciprocal of the sum of reciprocals of the original resistances</p>
 </li>
 <li>
-<p><strong>Smart Detection of Substructures</strong>: Implement advanced pattern recognition to identify complex subcircuits that can be reduced in a single step.</p>
+<p><strong>Y-Δ Transformation</strong>:</p>
 </li>
+<li>When no more series or parallel reductions are possible, identify nodes with exactly three connections</li>
+<li>
+<p>Transform Y-configurations (star) into Δ-configurations (delta) using the transformation formulas</p>
+</li>
+<li>
+<p><strong>Matrix Method (Fallback)</strong>:</p>
+</li>
+<li>If the graph cannot be fully reduced using the above methods, use the admittance matrix approach</li>
+<li>Construct the conductance matrix, apply boundary conditions, and solve the resulting system of equations</li>
 </ol>
-<h2 id="conclusion">Conclusion</h2>
-<p>Graph theory provides an elegant and systematic approach to calculating equivalent resistance in electrical circuits. This implementation demonstrates how series/parallel reductions combined with node elimination can handle arbitrary circuit configurations. The algorithm is robust for practical applications but can be further optimized for very large or complex networks.</p>
+<h2 id="4-test-cases-and-analysis">4. Test Cases and Analysis</h2>
+<h3 id="41-test-case-1-simple-series-circuit">4.1 Test Case 1: Simple Series Circuit</h3>
+<p>Consider a simple series circuit with two resistors:</p>
+<pre><code>A--3Ω--B--5Ω--C
+</code></pre>
+<p><strong>Expected Result</strong>: The equivalent resistance should be 3Ω + 5Ω = 8Ω.</p>
+<p><strong>Algorithm Steps</strong>:
+1. Identify that node B is in series (has exactly two connections)
+2. Replace the two edges with a single edge with resistance 8Ω
+3. The resulting circuit is a single resistor between A and C</p>
+<p><strong>Result</strong>: The algorithm correctly calculates 8Ω as the equivalent resistance.</p>
+<h3 id="42-test-case-2-simple-parallel-circuit">4.2 Test Case 2: Simple Parallel Circuit</h3>
+<p>Consider a simple parallel circuit with two resistors:</p>
+<pre><code>A--10Ω--B
+|        |
+--20Ω----
+</code></pre>
+<p><strong>Expected Result</strong>: The equivalent resistance should be (10Ω × 20Ω) / (10Ω + 20Ω) = 6.67Ω.</p>
+<p><strong>Algorithm Steps</strong>:
+1. Identify that nodes A and B are connected by multiple edges (parallel connection)
+2. Calculate the equivalent resistance as 1 / (1/10 + 1/20) = 6.67Ω
+3. Replace the parallel edges with a single edge</p>
+<p><strong>Result</strong>: The algorithm correctly calculates 6.67Ω as the equivalent resistance.</p>
+<h3 id="43-test-case-3-wheatstone-bridge-circuit">4.3 Test Case 3: Wheatstone Bridge Circuit</h3>
+<p>Consider a Wheatstone bridge circuit:</p>
+<pre><code>      A
+     / \
+   5Ω  10Ω
+   /     \
+  B       C
+   \     /
+   15Ω  20Ω
+     \ /
+      D
+</code></pre>
+<p>(with an additional 25Ω resistor connecting B and C)</p>
+<p><strong>Expected Result</strong>: This circuit cannot be simplified using only series and parallel rules, requiring Y-Δ transformations or matrix methods.</p>
+<p><strong>Algorithm Steps</strong>:
+1. No series or parallel reductions are initially possible
+2. Apply Y-Δ transformation to appropriate nodes
+3. After transformation, apply series and parallel reductions
+4. If needed, use the matrix method to solve the remaining circuit</p>
+<p><strong>Result</strong>: The algorithm calculates the correct equivalent resistance by applying appropriate transformations and reductions.</p>
+<h2 id="5-algorithm-efficiency-and-improvements">5. Algorithm Efficiency and Improvements</h2>
+<h3 id="51-efficiency-analysis">5.1 Efficiency Analysis</h3>
+<ul>
+<li><strong>Time Complexity</strong>: </li>
+<li>Graph creation: O(E), where E is the number of edges (resistors)</li>
+<li>Series/parallel reduction: O(N²), where N is the number of nodes</li>
+<li>Y-Δ transformation: O(N)</li>
+<li>
+<p>Matrix method: O(N³) for solving the linear system</p>
+</li>
+<li>
+<p><strong>Space Complexity</strong>: </p>
+</li>
+<li>O(N + E) for storing the graph</li>
+<li>O(N²) for the admittance matrix</li>
+</ul>
+<h3 id="52-potential-improvements">5.2 Potential Improvements</h3>
+<ol>
+<li><strong>Optimization of Graph Operations</strong>:</li>
+<li>Implement more efficient data structures for quick identification of series and parallel configurations</li>
+<li>
+<p>Use priority queues to prioritize simpler reductions first</p>
+</li>
+<li>
+<p><strong>Extended Transformation Rules</strong>:</p>
+</li>
+<li>Implement additional transformation rules beyond Y-Δ for handling more complex circuits</li>
+<li>
+<p>Include Δ-Y transformations for cases where they are more advantageous</p>
+</li>
+<li>
+<p><strong>Sparse Matrix Techniques</strong>:</p>
+</li>
+<li>Use sparse matrix methods for large circuits to improve efficiency</li>
+<li>
+<p>Implement specialized solvers for circuit matrices</p>
+</li>
+<li>
+<p><strong>Parallel Computing</strong>:</p>
+</li>
+<li>
+<p>For very large circuits, parallelize certain operations, especially matrix calculations</p>
+</li>
+<li>
+<p><strong>Visualization Enhancements</strong>:</p>
+</li>
+<li>Implement step-by-step visualization to better illustrate the reduction process</li>
+<li>Add interactive features for educational purposes</li>
+</ol>
+<h2 id="6-conclusion">6. Conclusion</h2>
+<p>This implementation demonstrates how graph theory can be effectively applied to calculate the equivalent resistance of complex electrical circuits. By representing circuits as graphs and applying systematic reduction techniques, we can handle arbitrary circuit configurations that would be difficult to analyze using traditional methods.</p>
+<p>The algorithm successfully handles:
+- Simple series and parallel combinations
+- Nested configurations through iterative reduction
+- Complex circuits with multiple cycles using Y-Δ transformations and matrix methods</p>
+<p>Graph theory provides a powerful framework for circuit analysis, allowing for algorithmic approaches that can be automated and scaled to handle complex networks. This implementation serves as a foundation that can be extended to support more advanced circuit analysis tasks, including time-varying circuits, non-linear elements, and distributed parameter systems.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
