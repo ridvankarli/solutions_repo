@@ -1,3 +1,4 @@
+# Problem 3
 # Payload Trajectories Near Earth: Analysis and Simulation
 
 ## 1. Introduction
