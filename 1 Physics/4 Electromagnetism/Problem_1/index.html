@@ -6,13 +6,13 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <link href="../../../img/favicon.ico" rel="shortcut icon"/>
-<title>Simulating the Effects of the Lorentz Force - Physics and Mathematics</title>
+<title>Problem 1 - Physics and Mathematics</title>
 <link href="../../../css/theme.css" rel="stylesheet"/>
 <link href="../../../css/theme_extra.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
 <script>
         // Current page data
-        var mkdocs_page_name = "Simulating the Effects of the Lorentz Force";
+        var mkdocs_page_name = "Problem 1";
         var mkdocs_page_input_path = "1 Physics/4 Electromagnetism/Problem_1.md";
         var mkdocs_page_url = null;
       </script>
@@ -46,7 +46,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal">1 Mechanics</a>
 <ul>
-<li class="toctree-l2"><a class="reference internal" href="../../1%20Mechanics/Problem_1/">Investigating the Range as a Function of the Angle of Projection</a>
+<li class="toctree-l2"><a class="reference internal" href="../../1%20Mechanics/Problem_1/">Problem 1</a>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../1%20Mechanics/Problem_2/">Problem 2</a>
 </li>
@@ -54,81 +54,39 @@
 </li>
 <li class="toctree-l1"><a class="reference internal">2 Gravity</a>
 <ul>
-<li class="toctree-l2"><a class="reference internal" href="../../2%20Gravity/Problem_1/">Orbital Period and Orbital Radius: Kepler's Third Law</a>
+<li class="toctree-l2"><a class="reference internal" href="../../2%20Gravity/Problem_1/">Problem 1</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../2%20Gravity/Problem_2/">Escape Velocities and Cosmic Velocities</a>
+<li class="toctree-l2"><a class="reference internal" href="../../2%20Gravity/Problem_2/">Problem 2</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../2%20Gravity/Problem_3/">Payload Trajectories Near Earth: Analysis and Simulation</a>
+<li class="toctree-l2"><a class="reference internal" href="../../2%20Gravity/Problem_3/">Problem 3</a>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal">3 Waves</a>
 <ul>
-<li class="toctree-l2"><a class="reference internal" href="../../3%20Waves/Problem_1/">Interference Patterns on a Water Surface: Analysis and Simulation</a>
+<li class="toctree-l2"><a class="reference internal" href="../../3%20Waves/Problem_1/">Problem 1</a>
 </li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal current">4 Electromagnetism</a>
 <ul class="current">
-<li class="toctree-l2 current"><a class="reference internal current" href="#">Simulating the Effects of the Lorentz Force</a>
+<li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
 <ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="#motivation">Motivation</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#1-exploration-of-applications">1. Exploration of Applications</a>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#systems-where-the-lorentz-force-plays-a-key-role">Systems Where the Lorentz Force Plays a Key Role</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#relevance-of-electric-and-magnetic-fields">Relevance of Electric and Magnetic Fields</a>
-</li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#2-simulating-particle-motion">2. Simulating Particle Motion</a>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#equations-of-motion">Equations of Motion</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#implementation-in-python">Implementation in Python</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#a-uniform-magnetic-field">A. Uniform Magnetic Field</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#b-combined-uniform-electric-and-magnetic-fields">B. Combined Uniform Electric and Magnetic Fields</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#c-simulating-circular-helical-and-drift-motion">C. Simulating Circular, Helical, and Drift Motion</a>
-</li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#3-parameter-exploration">3. Parameter Exploration</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#4-visualization">4. Visualization</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#5-relating-results-to-practical-systems">5. Relating Results to Practical Systems</a>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#cyclotrons-and-particle-accelerators">Cyclotrons and Particle Accelerators</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#mass-spectrometers">Mass Spectrometers</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#plasma-confinement">Plasma Confinement</a>
-</li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#6-suggestions-for-further-extensions">6. Suggestions for Further Extensions</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#conclusion">Conclusion</a>
-</li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal">5 Circuits</a>
 <ul>
-<li class="toctree-l2"><a class="reference internal" href="../../5%20Circuits/Problem_1/">Calculating Equivalent Resistance Using Graph Theory</a>
+<li class="toctree-l2"><a class="reference internal" href="../../5%20Circuits/Problem_1/">Problem 1</a>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal">6 Statistics</a>
 <ul>
-<li class="toctree-l2"><a class="reference internal" href="../../6%20Statistics/Problem_1/">Exploring the Central Limit Theorem through Simulations</a>
+<li class="toctree-l2"><a class="reference internal" href="../../6%20Statistics/Problem_1/">Problem 1</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../6%20Statistics/Problem_2/">Estimating π Using Monte Carlo Methods</a>
+<li class="toctree-l2"><a class="reference internal" href="../../6%20Statistics/Problem_2/">Problem 2</a>
 </li>
 </ul>
 </li>
@@ -205,7 +163,7 @@
 <li><a aria-label="Docs" class="icon icon-home" href="../../.."></a></li>
 <li class="breadcrumb-item">1 Physics</li>
 <li class="breadcrumb-item">4 Electromagnetism</li>
-<li class="breadcrumb-item active">Simulating the Effects of the Lorentz Force</li>
+<li class="breadcrumb-item active">Problem 1</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -213,6 +171,7 @@
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
+<h1 id="problem-1">Problem 1</h1>
 <h1 id="simulating-the-effects-of-the-lorentz-force">Simulating the Effects of the Lorentz Force</h1>
 <h2 id="motivation">Motivation</h2>
 <p>The Lorentz force, expressed as <span class="arithmatex">\(\mathbf{F} = q\mathbf{E} + q\mathbf{v} \times \mathbf{B}\)</span>, governs the motion of charged particles in electric and magnetic fields. It is foundational in fields like plasma physics, particle accelerators, and astrophysics. By focusing on simulations, we can explore the practical applications and visualize the complex trajectories that arise due to this force.</p>
@@ -742,8 +701,8 @@ advanced_visualizations()
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
-<a class="btn btn-neutral float-left" href="../../3%20Waves/Problem_1/" title="Interference Patterns on a Water Surface: Analysis and Simulation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-<a class="btn btn-neutral float-right" href="../../5%20Circuits/Problem_1/" title="Calculating Equivalent Resistance Using Graph Theory">Next <span class="icon icon-circle-arrow-right"></span></a>
+<a class="btn btn-neutral float-left" href="../../3%20Waves/Problem_1/" title="Problem 1"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../../5%20Circuits/Problem_1/" title="Problem 1">Next <span class="icon icon-circle-arrow-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">
