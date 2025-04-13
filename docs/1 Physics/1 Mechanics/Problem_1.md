@@ -8,10 +8,10 @@ Projectile motion is a fundamental concept in physics with applications in sport
 
 ### Equations of Motion  
 - **Horizontal position:**  
-  $ x(t) = v_0 \cos(\theta) t $
+  $$ x(t) = v_0 \cos(\theta) t $$
 
 - **Vertical position:**  
-  $ y(t) = v_0 \sin(\theta) t - \frac{1}{2} g t^2 $
+  $$ y(t) = v_0 \sin(\theta) t - \frac{1}{2} g t^2 $$
 
 ### Time of Flight  
 $$ T = \frac{2 v_0 \sin(\theta)}{g} $$
