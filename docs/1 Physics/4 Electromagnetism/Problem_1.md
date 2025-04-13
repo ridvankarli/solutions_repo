@@ -1,74 +1,44 @@
-# Problem 1
-# Simulating the Effects of the Lorentz Force
-
-## Motivation
-
-The Lorentz force, expressed as $\mathbf{F} = q\mathbf{E} + q\mathbf{v} \times \mathbf{B}$, governs the motion of charged particles in electric and magnetic fields. It is foundational in fields like plasma physics, particle accelerators, and astrophysics. By focusing on simulations, we can explore the practical applications and visualize the complex trajectories that arise due to this force.
+# Problem 1: Lorentz Force Simulation
 
 ## 1. Exploration of Applications
 
-### Systems Where the Lorentz Force Plays a Key Role
+### Systems where the Lorentz force plays a key role
 
-1. **Particle Accelerators**:
-   - Cyclotrons, synchrotrons, and linear accelerators use magnetic fields to bend charged particles into circular paths and electric fields to accelerate them.
-   - The Large Hadron Collider (LHC) at CERN uses superconducting magnets to guide protons at nearly the speed of light.
+The Lorentz force, expressed as F = qE + qv × B, governs the motion of charged particles in electric and magnetic fields and is fundamental in numerous scientific and technological applications:
 
-2. **Mass Spectrometers**:
-   - Utilize the Lorentz force to separate ions based on their mass-to-charge ratio.
-   - Ions follow circular trajectories with radii proportional to their masses when subjected to uniform magnetic fields.
+**Particle Accelerators**: Linear accelerators and cyclotrons use precisely controlled electromagnetic fields to accelerate charged particles to high energies for research and medical applications.
 
-3. **Plasma Confinement**:
-   - Tokamaks and stellarators in fusion research use magnetic fields to confine hot plasma.
-   - The Lorentz force prevents charged particles from escaping the containment vessel.
+**Mass Spectrometers**: These devices separate ions based on their mass-to-charge ratio using magnetic fields that curve particle trajectories differently depending on their properties.
 
-4. **Hall Effect Devices**:
-   - Hall effect sensors use the Lorentz force principle to measure magnetic fields.
-   - Used in position sensing, current measurements, and speed detection.
+**Plasma Confinement**: Tokamaks and stellarators use magnetic fields to confine hot plasma for fusion research, preventing the charged particles from contacting and cooling against reactor walls.
 
-5. **Magnetohydrodynamic (MHD) Propulsion**:
-   - MHD drives use the Lorentz force to propel conductive fluids or plasma.
-   - Potential applications in marine propulsion and space travel.
+**Magnetohydrodynamic (MHD) Generators**: These convert thermal and kinetic energy directly into electricity using the movement of conductive plasma through a magnetic field.
 
-### Relevance of Electric and Magnetic Fields
+**Hall Thrusters**: Used in spacecraft propulsion, these accelerate ions using electric fields while magnetic fields trap electrons that help maintain the electric field.
 
-**Electric Fields ($\mathbf{E}$)**:
-- Electric fields exert force on charged particles in the direction of the field (for positive charges) or opposite to it (for negative charges).
-- The force is proportional to the charge value and the field strength.
-- Electric fields can accelerate or decelerate charged particles, changing their kinetic energy.
-- In accelerators, electric fields are used to increase particle energy.
+**Electron Microscopes**: Both transmission and scanning electron microscopes use magnetic fields to focus beams of electrons.
 
-**Magnetic Fields ($\mathbf{B}$)**:
-- Magnetic fields exert force perpendicular to both the field and the particle's velocity.
-- The force is proportional to the charge, velocity, and magnetic field strength.
-- Magnetic fields can change the direction of motion but not the speed of charged particles.
-- In accelerators and confinement systems, magnetic fields guide particles without changing their energy.
+### Relevance of electric (E) and magnetic (B) fields
 
-The combination of electric and magnetic fields allows precise control over charged particle motion, enabling the design of sophisticated devices for research and practical applications.
+Electric and magnetic fields control charged particle motion in complementary ways:
+
+**Electric Fields (E)**:
+- Cause acceleration parallel to field lines
+- Force magnitude depends on charge (q) but not velocity
+- Energy-changing (can increase or decrease particle energy)
+- Used primarily to accelerate particles along straight paths
+- Critical for increasing particle energy in accelerators
+
+**Magnetic Fields (B)**:
+- Cause acceleration perpendicular to both the field and particle velocity
+- Force magnitude depends on both charge (q) and velocity (v)
+- Energy-conserving (changes direction but not speed in uniform fields)
+- Creates circular, helical, or drift motions
+- Used for steering, focusing, and confining charged particles
 
 ## 2. Simulating Particle Motion
 
-### Equations of Motion
-
-The motion of a charged particle under the Lorentz force is governed by Newton's second law:
-
-$$m\frac{d\mathbf{v}}{dt} = q\mathbf{E} + q\mathbf{v} \times \mathbf{B}$$
-
-This can be rewritten as a system of first-order differential equations:
-
-$$\frac{d\mathbf{r}}{dt} = \mathbf{v}$$
-$$\frac{d\mathbf{v}}{dt} = \frac{q}{m}\mathbf{E} + \frac{q}{m}\mathbf{v} \times \mathbf{B}$$
-
-Where:
-- $\mathbf{r}$ is the position vector
-- $\mathbf{v}$ is the velocity vector
-- $q$ is the charge of the particle
-- $m$ is the mass of the particle
-- $\mathbf{E}$ is the electric field vector
-- $\mathbf{B}$ is the magnetic field vector
-
-### Implementation in Python
-
-We'll implement a numerical solver using the 4th-order Runge-Kutta method to simulate particle trajectories.
+Below is a Python implementation that simulates charged particle motion under different electromagnetic field configurations. The code uses the 4th-order Runge-Kutta method to solve the equations of motion.
 
 ```python
 import numpy as np
@@ -76,481 +46,412 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 
-# Physical constants
-q_e = 1.602176634e-19  # Elementary charge in Coulombs
-m_e = 9.1093837015e-31  # Electron mass in kg
+class LorentzForceSimulator:
+    def __init__(self, q=1.0, m=1.0, dt=0.01, tmax=100.0):
+        """
+        Initialize the simulator with particle and simulation parameters.
 
-def lorentz_force(t, state, q, m, E, B):
-    """
-    Calculate the derivative of the state vector based on the Lorentz force.
-    
-    Parameters:
-    - t: time (not used in time-independent fields but required for RK4)
-    - state: 6D state vector [x, y, z, vx, vy, vz]
-    - q: charge of the particle
-    - m: mass of the particle
-    - E: function that returns the electric field vector at position (x, y, z)
-    - B: function that returns the magnetic field vector at position (x, y, z)
-    
-    Returns:
-    - derivatives: 6D vector [dx/dt, dy/dt, dz/dt, dvx/dt, dvy/dt, dvz/dt]
-    """
-    x, y, z, vx, vy, vz = state
-    position = np.array([x, y, z])
-    velocity = np.array([vx, vy, vz])
-    
-    # Get field values at current position
-    E_field = E(position, t)
-    B_field = B(position, t)
-    
-    # Calculate acceleration using the Lorentz force law
-    acceleration = (q/m) * (E_field + np.cross(velocity, B_field))
-    
-    return np.array([vx, vy, vz, acceleration[0], acceleration[1], acceleration[2]])
+        Parameters:
+        -----------
+        q : float
+            Charge of the particle
+        m : float
+            Mass of the particle
+        dt : float
+            Time step for integration
+        tmax : float
+            Total simulation time
+        """
+        self.q = q
+        self.m = m
+        self.dt = dt
+        self.tmax = tmax
+        self.steps = int(tmax / dt)
 
-def rk4_step(f, t, state, dt, *args):
-    """
-    Perform one step of the 4th order Runge-Kutta method.
-    
-    Parameters:
-    - f: function that computes the derivative
-    - t: current time
-    - state: current state vector
-    - dt: time step
-    - args: additional arguments for the derivative function
-    
-    Returns:
-    - new_state: updated state vector
-    """
-    k1 = f(t, state, *args)
-    k2 = f(t + 0.5*dt, state + 0.5*dt*k1, *args)
-    k3 = f(t + 0.5*dt, state + 0.5*dt*k2, *args)
-    k4 = f(t + dt, state + dt*k3, *args)
-    
-    return state + (dt/6)*(k1 + 2*k2 + 2*k3 + k4)
+        # Containers for results
+        self.t = np.zeros(self.steps)
+        self.pos = np.zeros((self.steps, 3))
+        self.vel = np.zeros((self.steps, 3))
 
-def simulate_particle_motion(initial_state, q, m, E, B, t_max, dt):
-    """
-    Simulate the motion of a charged particle under the influence of electric and magnetic fields.
-    
-    Parameters:
-    - initial_state: initial state vector [x0, y0, z0, vx0, vy0, vz0]
-    - q: charge of the particle
-    - m: mass of the particle
-    - E: function that returns the electric field vector
-    - B: function that returns the magnetic field vector
-    - t_max: maximum simulation time
-    - dt: time step
-    
-    Returns:
-    - times: array of time points
-    - trajectories: array of state vectors at each time point
-    """
-    n_steps = int(t_max / dt)
-    times = np.linspace(0, t_max, n_steps)
-    trajectories = np.zeros((n_steps, 6))
-    
-    trajectories[0] = initial_state
-    state = initial_state
-    
-    for i in range(1, n_steps):
-        t = times[i-1]
-        state = rk4_step(lorentz_force, t, state, dt, q, m, E, B)
-        trajectories[i] = state
-    
-    return times, trajectories
+    def set_initial_conditions(self, r0=[0, 0, 0], v0=[0, 0, 1]):
+        """Set initial position and velocity of the particle."""
+        self.pos[0] = np.array(r0)
+        self.vel[0] = np.array(v0)
+
+    def electric_field(self, r, t):
+        """Electric field at position r and time t."""
+        return np.array([0.0, 0.0, 0.0])  # Default: No electric field
+
+    def magnetic_field(self, r, t):
+        """Magnetic field at position r and time t."""
+        return np.array([0.0, 0.0, 1.0])  # Default: Uniform magnetic field in z-direction
+
+    def lorentz_force(self, r, v, t):
+        """Calculate Lorentz force F = q(E + v × B)."""
+        E = self.electric_field(r, t)
+        B = self.magnetic_field(r, t)
+
+        # Compute Lorentz force components
+        f_electric = self.q * E
+        f_magnetic = self.q * np.cross(v, B)
+
+        return f_electric + f_magnetic
+
+    def acceleration(self, r, v, t):
+        """Calculate acceleration a = F/m."""
+        force = self.lorentz_force(r, v, t)
+        return force / self.m
+
+    def runge_kutta_step(self, r, v, t):
+        """Perform one step of the 4th-order Runge-Kutta integration."""
+        # RK4 for position
+        k1_r = v
+        k1_v = self.acceleration(r, v, t)
+
+        k2_r = v + 0.5 * self.dt * k1_v
+        k2_v = self.acceleration(r + 0.5 * self.dt * k1_r, v + 0.5 * self.dt * k1_v, t + 0.5 * self.dt)
+
+        k3_r = v + 0.5 * self.dt * k2_v
+        k3_v = self.acceleration(r + 0.5 * self.dt * k2_r, v + 0.5 * self.dt * k2_v, t + 0.5 * self.dt)
+
+        k4_r = v + self.dt * k3_v
+        k4_v = self.acceleration(r + self.dt * k3_r, v + self.dt * k3_v, t + self.dt)
+
+        # Update position and velocity
+        r_new = r + (self.dt / 6.0) * (k1_r + 2 * k2_r + 2 * k3_r + k4_r)
+        v_new = v + (self.dt / 6.0) * (k1_v + 2 * k2_v + 2 * k3_v + k4_v)
+
+        return r_new, v_new
+
+    def run_simulation(self):
+        """Run the complete simulation for all time steps."""
+        for i in range(1, self.steps):
+            self.t[i] = i * self.dt
+            self.pos[i], self.vel[i] = self.runge_kutta_step(
+                self.pos[i-1], self.vel[i-1], self.t[i-1]
+            )
+
+    def plot_trajectory_2d(self, plane='xy', title="Particle Trajectory"):
+        """Plot the particle trajectory in a 2D plane."""
+        planes = {'xy': (0, 1), 'xz': (0, 2), 'yz': (1, 2)}
+        if plane not in planes:
+            raise ValueError("Plane must be one of 'xy', 'xz', or 'yz'")
+
+        idx1, idx2 = planes[plane]
+        labels = ['x', 'y', 'z']
+
+        plt.figure(figsize=(10, 8))
+        plt.plot(self.pos[:, idx1], self.pos[:, idx2])
+        plt.grid(True)
+        plt.xlabel(f'{labels[idx1]} position')
+        plt.ylabel(f'{labels[idx2]} position')
+        plt.title(title)
+        plt.axis('equal')
+
+        # Mark start and end points
+        plt.plot(self.pos[0, idx1], self.pos[0, idx2], 'go', label='Start')
+        plt.plot(self.pos[-1, idx1], self.pos[-1, idx2], 'ro', label='End')
+        plt.legend()
+
+        return plt.gcf()
+
+    def plot_trajectory_3d(self, title="3D Particle Trajectory"):
+        """Plot the particle trajectory in 3D space."""
+        fig = plt.figure(figsize=(12, 10))
+        ax = fig.add_subplot(111, projection='3d')
+
+        ax.plot(self.pos[:, 0], self.pos[:, 1], self.pos[:, 2])
+        ax.set_xlabel('x position')
+        ax.set_ylabel('y position')
+        ax.set_zlabel('z position')
+        ax.set_title(title)
+
+        # Mark start and end points
+        ax.plot([self.pos[0, 0]], [self.pos[0, 1]], [self.pos[0, 2]], 'go', label='Start')
+        ax.plot([self.pos[-1, 0]], [self.pos[-1, 1]], [self.pos[-1, 2]], 'ro', label='End')
+        ax.legend()
+
+        return fig
+
+    def calculate_larmor_radius(self):
+        """Calculate the Larmor radius for a particle in a uniform magnetic field."""
+        # Get the magnetic field magnitude (assuming it's uniform)
+        B_mag = np.linalg.norm(self.magnetic_field(self.pos[0], 0))
+        if B_mag == 0:
+            return float('inf')  # No magnetic field means infinite radius
+
+        # Get the perpendicular component of velocity
+        v_perp = np.linalg.norm(self.vel[0] - 
+                               np.dot(self.vel[0], self.magnetic_field(self.pos[0], 0)) * 
+                               self.magnetic_field(self.pos[0], 0) / B_mag**2)
+
+        # Calculate Larmor radius: r = m*v_perp / (|q|*B)
+        r_larmor = self.m * v_perp / (abs(self.q) * B_mag)
+        return r_larmor
+
+    def calculate_drift_velocity(self):
+        """Calculate the drift velocity for crossed E and B fields."""
+        # Get field values (assuming they're uniform)
+        E = self.electric_field(self.pos[0], 0)
+        B = self.magnetic_field(self.pos[0], 0)
+        B_mag_sq = np.sum(B**2)
+
+        if B_mag_sq == 0:
+            return np.zeros(3)  # No magnetic field means no E×B drift
+
+        # Calculate E×B drift velocity: v_drift = (E×B) / B²
+        v_drift = np.cross(E, B) / B_mag_sq
+        return v_drift
+
+
+# Subclasses for specific field configurations
+
+class UniformMagneticFieldSimulator(LorentzForceSimulator):
+    def __init__(self, B_strength=1.0, **kwargs):
+        super().__init__(**kwargs)
+        self.B_strength = B_strength
+
+    def magnetic_field(self, r, t):
+        """Uniform magnetic field in z-direction."""
+        return np.array([0, 0, self.B_strength])
+
+class CombinedUniformFieldsSimulator(LorentzForceSimulator):
+    def __init__(self, E_strength=1.0, B_strength=1.0, **kwargs):
+        super().__init__(**kwargs)
+        self.E_strength = E_strength
+        self.B_strength = B_strength
+
+    def electric_field(self, r, t):
+        """Uniform electric field in x-direction."""
+        return np.array([self.E_strength, 0, 0])
+
+    def magnetic_field(self, r, t):
+        """Uniform magnetic field in z-direction."""
+        return np.array([0, 0, self.B_strength])
+
+class CrossedFieldsSimulator(LorentzForceSimulator):
+    def __init__(self, E_strength=1.0, B_strength=1.0, **kwargs):
+        super().__init__(**kwargs)
+        self.E_strength = E_strength
+        self.B_strength = B_strength
+
+    def electric_field(self, r, t):
+        """Uniform electric field in x-direction."""
+        return np.array([self.E_strength, 0, 0])
+
+    def magnetic_field(self, r, t):
+        """Uniform magnetic field in y-direction."""
+        return np.array([0, self.B_strength, 0])
+
+
+# Helper function to run and visualize a simulation
+def run_and_visualize(simulator, title, show_physics=True):
+    simulator.run_simulation()
+
+    # Create 2D plots for all planes
+    simulator.plot_trajectory_2d('xy', f"{title} - XY Plane")
+    simulator.plot_trajectory_2d('xz', f"{title} - XZ Plane")
+    simulator.plot_trajectory_2d('yz', f"{title} - YZ Plane")
+
+    # Create 3D plot
+    simulator.plot_trajectory_3d(f"{title} - 3D Trajectory")
+
+    # Print physical parameters
+    if show_physics:
+        larmor_radius = simulator.calculate_larmor_radius()
+        drift_velocity = simulator.calculate_drift_velocity()
+
+        print(f"Results for: {title}")
+        print(f"Larmor radius: {larmor_radius:.4f}")
+        print(f"Drift velocity: [{drift_velocity[0]:.4f}, {drift_velocity[1]:.4f}, {drift_velocity[2]:.4f}]")
+        print("-" * 50)
+
+    plt.show()
 ```
 
-### A. Uniform Magnetic Field
-
-Let's first simulate a charged particle in a uniform magnetic field, where we expect to see circular motion.
+### Example usage with different field configurations
 
 ```python
-def uniform_magnetic_field(position, t):
-    """Return a uniform magnetic field in the z-direction."""
-    return np.array([0, 0, 1.0])  # B = 1 Tesla in z-direction
+# Example 1: Uniform Magnetic Field
+print("Simulation 1: Uniform Magnetic Field")
+sim1 = UniformMagneticFieldSimulator(B_strength=2.0, q=1.0, m=1.0)
+sim1.set_initial_conditions(r0=[0, 0, 0], v0=[1, 1, 0.5])
+run_and_visualize(sim1, "Uniform Magnetic Field")
 
-def zero_electric_field(position, t):
-    """Return a zero electric field."""
-    return np.array([0, 0, 0])
+# Example 2: Combined Uniform Electric and Magnetic Fields
+print("Simulation 2: Combined Uniform Fields")
+sim2 = CombinedUniformFieldsSimulator(E_strength=0.5, B_strength=2.0, q=1.0, m=1.0)
+sim2.set_initial_conditions(r0=[0, 0, 0], v0=[1, 1, 0.5])
+run_and_visualize(sim2, "Combined Uniform Fields")
 
-# Simulation parameters
-q = q_e  # Electron charge
-m = m_e  # Electron mass
-initial_state = np.array([0.0, 0.0, 0.0, 1e6, 0.0, 0.0])  # Starting at origin with velocity in x-direction
-t_max = 1e-8  # 10 nanoseconds
-dt = 1e-11    # 10 picoseconds
+# Example 3: Crossed Electric and Magnetic Fields
+print("Simulation 3: Crossed Fields")
+sim3 = CrossedFieldsSimulator(E_strength=1.0, B_strength=2.0, q=1.0, m=1.0)
+sim3.set_initial_conditions(r0=[0, 0, 0], v0=[0, 0, 1])
+run_and_visualize(sim3, "Crossed Fields")
 
-# Run simulation
-times, trajectories = simulate_particle_motion(
-    initial_state, q, m, zero_electric_field, uniform_magnetic_field, t_max, dt
-)
-
-# Plot the trajectory
-fig = plt.figure(figsize=(10, 8))
-ax = fig.add_subplot(111, projection='3d')
-ax.plot(trajectories[:, 0], trajectories[:, 1], trajectories[:, 2])
-ax.set_xlabel('X [m]')
-ax.set_ylabel('Y [m]')
-ax.set_zlabel('Z [m]')
-ax.set_title('Electron Trajectory in Uniform Magnetic Field')
-
-# Calculate and display the Larmor radius
-v_perpendicular = np.sqrt(initial_state[3]**2 + initial_state[4]**2)  # Initial perpendicular velocity
-B_magnitude = 1.0  # 1 Tesla
-larmor_radius = m * v_perpendicular / (abs(q) * B_magnitude)
-ax.text2D(0.05, 0.95, f"Larmor radius: {larmor_radius:.2e} m", transform=ax.transAxes)
-
-plt.tight_layout()
-plt.savefig('uniform_magnetic_field.png')
-plt.close()
+# Parameter Exploration: Varying B field strength
+print("Parameter Exploration: Varying B field strength")
+for B in [0.5, 1.0, 2.0, 4.0]:
+    sim = UniformMagneticFieldSimulator(B_strength=B, q=1.0, m=1.0)
+    sim.set_initial_conditions(r0=[0, 0, 0], v0=[1, 1, 0])
+    run_and_visualize(sim, f"Magnetic Field B={B}", show_physics=True)
 ```
-
-### B. Combined Uniform Electric and Magnetic Fields
-
-Now let's simulate a particle in crossed electric and magnetic fields, where we expect to see a drift motion.
-
-```python
-def uniform_electric_field(position, t):
-    """Return a uniform electric field in the y-direction."""
-    return np.array([0, 100.0, 0])  # E = 100 V/m in y-direction
-
-# Run simulation with combined electric and magnetic fields
-times_combined, trajectories_combined = simulate_particle_motion(
-    initial_state, q, m, uniform_electric_field, uniform_magnetic_field, t_max, dt
-)
-
-# Plot the trajectory
-fig = plt.figure(figsize=(10, 8))
-ax = fig.add_subplot(111, projection='3d')
-ax.plot(trajectories_combined[:, 0], trajectories_combined[:, 1], trajectories_combined[:, 2])
-ax.set_xlabel('X [m]')
-ax.set_ylabel('Y [m]')
-ax.set_zlabel('Z [m]')
-ax.set_title('Electron Trajectory in Crossed E and B Fields')
-
-# Calculate and display the drift velocity
-E_magnitude = 100.0  # 100 V/m
-B_magnitude = 1.0    # 1 Tesla
-drift_velocity = E_magnitude / B_magnitude
-ax.text2D(0.05, 0.95, f"E×B Drift velocity: {drift_velocity:.2f} m/s in z-direction", transform=ax.transAxes)
-
-plt.tight_layout()
-plt.savefig('crossed_fields.png')
-plt.close()
-```
-
-### C. Simulating Circular, Helical, and Drift Motion
-
-Let's create scenarios for different types of motion:
-
-```python
-def simulate_and_plot_scenarios():
-    """Simulate and plot different motion scenarios based on field configurations and initial conditions."""
-    
-    # Scenario 1: Circular motion (B field, initial velocity perpendicular to B)
-    initial_state_circular = np.array([0.0, 0.0, 0.0, 1e6, 0.0, 0.0])
-    times_circular, trajectories_circular = simulate_particle_motion(
-        initial_state_circular, q, m, zero_electric_field, uniform_magnetic_field, t_max, dt
-    )
-    
-    # Scenario 2: Helical motion (B field, initial velocity with component parallel to B)
-    initial_state_helical = np.array([0.0, 0.0, 0.0, 1e6, 0.0, 5e5])  # Added z-component
-    times_helical, trajectories_helical = simulate_particle_motion(
-        initial_state_helical, q, m, zero_electric_field, uniform_magnetic_field, t_max, dt
-    )
-    
-    # Scenario 3: E×B drift (crossed E and B fields)
-    initial_state_drift = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])  # Starting from rest
-    times_drift, trajectories_drift = simulate_particle_motion(
-        initial_state_drift, q, m, uniform_electric_field, uniform_magnetic_field, t_max, dt
-    )
-    
-    # Create a figure with 3 subplots
-    fig = plt.figure(figsize=(18, 6))
-    
-    # Plot 1: Circular motion
-    ax1 = fig.add_subplot(131, projection='3d')
-    ax1.plot(trajectories_circular[:, 0], trajectories_circular[:, 1], trajectories_circular[:, 2])
-    ax1.set_xlabel('X [m]')
-    ax1.set_ylabel('Y [m]')
-    ax1.set_zlabel('Z [m]')
-    ax1.set_title('Circular Motion\n(Uniform B, v ⊥ B)')
-    
-    # Plot 2: Helical motion
-    ax2 = fig.add_subplot(132, projection='3d')
-    ax2.plot(trajectories_helical[:, 0], trajectories_helical[:, 1], trajectories_helical[:, 2])
-    ax2.set_xlabel('X [m]')
-    ax2.set_ylabel('Y [m]')
-    ax2.set_zlabel('Z [m]')
-    ax2.set_title('Helical Motion\n(Uniform B, v has component ∥ to B)')
-    
-    # Plot 3: E×B Drift
-    ax3 = fig.add_subplot(133, projection='3d')
-    ax3.plot(trajectories_drift[:, 0], trajectories_drift[:, 1], trajectories_drift[:, 2])
-    ax3.set_xlabel('X [m]')
-    ax3.set_ylabel('Y [m]')
-    ax3.set_zlabel('Z [m]')
-    ax3.set_title('E×B Drift\n(Crossed E and B Fields)')
-    
-    plt.tight_layout()
-    plt.savefig('motion_scenarios.png')
-    plt.close()
-
-# Run the simulation scenarios
-simulate_and_plot_scenarios()
-```
+![alt text](1.png)
+![alt text](2.png)
+![alt text](3.png)
+![alt text](4.png)
+![alt text](5.png)
+![alt text](6.png)
+![alt text](7.png)
+![alt text](8.png)
+![alt text](9.png)
+![alt text](10.png)
+![alt text](11.png)
+![alt text](12.png)
+![alt text](13.png)
+![alt text](14.png)
+![alt text](15.png)
+![alt text](16.png)
+![alt text](17.png)
+![alt text](18.png)
+![alt text](19.png)
+![alt text](20.png)
+![alt text](21.png)
+![alt text](22.png)
 
 ## 3. Parameter Exploration
 
-Now we'll explore how varying different parameters affects the particle trajectories.
+The implemented simulation allows for exploration of how different parameters affect particle trajectories:
 
-```python
-def parameter_exploration():
-    """Explore how different parameters affect particle trajectory."""
-    
-    # Base parameters
-    base_q = q_e
-    base_m = m_e
-    base_E = lambda pos, t: np.array([0, 0, 0])
-    base_B = lambda pos, t: np.array([0, 0, 1.0])  # 1 Tesla in z
-    base_state = np.array([0.0, 0.0, 0.0, 1e6, 0.0, 0.0])
-    base_t_max = 1e-8
-    base_dt = 1e-11
-    
-    # 1. Varying magnetic field strength
-    B_values = [0.5, 1.0, 2.0]  # Different B-field strengths in Tesla
-    fig1 = plt.figure(figsize=(10, 8))
-    ax1 = fig1.add_subplot(111, projection='3d')
-    
-    for B_strength in B_values:
-        B_field = lambda pos, t: np.array([0, 0, B_strength])
-        _, trajectories = simulate_particle_motion(
-            base_state, base_q, base_m, base_E, B_field, base_t_max, base_dt
-        )
-        ax1.plot(trajectories[:, 0], trajectories[:, 1], trajectories[:, 2], 
-                 label=f'B = {B_strength} T')
-    
-    ax1.set_xlabel('X [m]')
-    ax1.set_ylabel('Y [m]')
-    ax1.set_zlabel('Z [m]')
-    ax1.set_title('Effect of Magnetic Field Strength on Trajectory')
-    ax1.legend()
-    plt.tight_layout()
-    plt.savefig('varying_B_strength.png')
-    plt.close()
-    
-    # 2. Varying initial velocity
-    v_values = [5e5, 1e6, 2e6]  # Different initial velocities in m/s
-    fig2 = plt.figure(figsize=(10, 8))
-    ax2 = fig2.add_subplot(111, projection='3d')
-    
-    for v_mag in v_values:
-        init_state = np.array([0.0, 0.0, 0.0, v_mag, 0.0, 0.0])
-        _, trajectories = simulate_particle_motion(
-            init_state, base_q, base_m, base_E, base_B, base_t_max, base_dt
-        )
-        ax2.plot(trajectories[:, 0], trajectories[:, 1], trajectories[:, 2], 
-                 label=f'v = {v_mag:.1e} m/s')
-    
-    ax2.set_xlabel('X [m]')
-    ax2.set_ylabel('Y [m]')
-    ax2.set_zlabel('Z [m]')
-    ax2.set_title('Effect of Initial Velocity on Trajectory')
-    ax2.legend()
-    plt.tight_layout()
-    plt.savefig('varying_velocity.png')
-    plt.close()
-    
-    # 3. Varying charge-to-mass ratio (q/m)
-    particles = [
-        ('Electron', q_e, m_e),
-        ('Proton', q_e, 1.67262192369e-27),  # proton mass
-        ('Alpha particle', 2*q_e, 6.644657230e-27)  # He-4 nucleus
-    ]
-    
-    fig3 = plt.figure(figsize=(10, 8))
-    ax3 = fig3.add_subplot(111, projection='3d')
-    
-    for name, q, m in particles:
-        # Adjust initial velocity for heavier particles to see effect in same region
-        v_scaling = np.sqrt(base_m / m)
-        init_state = np.array([0.0, 0.0, 0.0, v_scaling * 1e6, 0.0, 0.0])
-        
-        _, trajectories = simulate_particle_motion(
-            init_state, q, m, base_E, base_B, base_t_max, base_dt
-        )
-        ax3.plot(trajectories[:, 0], trajectories[:, 1], trajectories[:, 2], 
-                 label=f'{name} (q/m = {q/m:.2e})')
-    
-    ax3.set_xlabel('X [m]')
-    ax3.set_ylabel('Y [m]')
-    ax3.set_zlabel('Z [m]')
-    ax3.set_title('Effect of Charge-to-Mass Ratio on Trajectory')
-    ax3.legend()
-    plt.tight_layout()
-    plt.savefig('varying_charge_mass.png')
-    plt.close()
+### Field Strengths (E, B)
 
-# Run the parameter exploration
-parameter_exploration()
-```
+**Magnetic Field Strength (B)**:
+- Increasing B decreases the Larmor radius (r = mv/qB)
+- Increases the gyrofrequency (ω = qB/m)
+- Results in tighter spirals and faster gyration
+
+**Electric Field Strength (E)**:
+- In pure E-fields: Linear acceleration in field direction
+- In crossed E×B fields: Drift velocity (v = E×B/B²) increases with E
+- In parallel E and B fields: Helical trajectory with increasing pitch
+
+### Initial Particle Velocity (v)
+
+**Parallel Component (v‖)**:
+- Determines the pitch of helical motion
+- Unaffected by magnetic fields
+- Accelerated by parallel electric fields
+
+**Perpendicular Component (v⊥)**:
+- Determines the Larmor radius
+- Creates circular motion in plane perpendicular to B
+- Combined with v‖ creates helical trajectories
+
+**Direction**:
+- Initial angle between v and B affects trajectory shape
+- Perpendicular velocity components result in circular motion
+- Parallel velocity components result in linear motion along field lines
+
+### Charge and Mass (q, m)
+
+**Charge (q)**:
+- Opposite charges orbit in opposite directions
+- Higher charges experience stronger forces
+- Larmor radius ∝ 1/q
+
+**Mass (m)**:
+- Higher mass means greater inertia, less acceleration
+- Larmor radius ∝ m
+- Gyrofrequency ∝ 1/m
+
+### Observable Effects on Trajectories
+
+- Circular orbits: Result from uniform B fields with v perpendicular to B
+- Helical trajectories: Result from uniform B fields with v having both perpendicular and parallel components
+- Drift motion: Results from combined E and B fields, especially when they're perpendicular
+- Combined effects: Real-world scenarios often involve multiple field configurations creating complex trajectories
 
 ## 4. Visualization
 
-We've already created several visualizations during our simulations. Let's add a few more to highlight specific physical phenomena.
+The provided code creates several visualization types:
 
-```python
-def advanced_visualizations():
-    """Create advanced visualizations highlighting specific physical phenomena."""
-    
-    # 1. Larmor radius demonstration
-    B_field = lambda pos, t: np.array([0, 0, 1.0])  # 1 Tesla in z-direction
-    E_field = lambda pos, t: np.array([0, 0, 0])    # No electric field
-    
-    # Electrons with different energies
-    energies = [1e2, 1e3, 1e4]  # energies in eV
-    
-    fig1 = plt.figure(figsize=(10, 8))
-    ax1 = fig1.add_subplot(111, projection='3d')
-    
-    for energy_eV in energies:
-        # Convert energy to velocity (non-relativistic)
-        v_mag = np.sqrt(2 * energy_eV * q_e / m_e)
-        init_state = np.array([0.0, 0.0, 0.0, v_mag, 0.0, 0.0])
-        
-        _, trajectories = simulate_particle_motion(
-            init_state, q_e, m_e, E_field, B_field, 1e-9, 1e-12
-        )
-        
-        # Calculate Larmor radius
-        larmor_radius = m_e * v_mag / (abs(q_e) * 1.0)
-        
-        ax1.plot(trajectories[:, 0], trajectories[:, 1], trajectories[:, 2], 
-                 label=f'{energy_eV} eV, r_L = {larmor_radius:.2e} m')
-    
-    ax1.set_xlabel('X [m]')
-    ax1.set_ylabel('Y [m]')
-    ax1.set_zlabel('Z [m]')
-    ax1.set_title('Larmor Radius for Electrons of Different Energies')
-    ax1.legend()
-    plt.tight_layout()
-    plt.savefig('larmor_radius.png')
-    plt.close()
-    
-    # 2. E×B Drift Velocity demonstration
-    B_magnitude = 1.0  # 1 Tesla
-    E_magnitudes = [50, 100, 200]  # V/m
-    
-    fig2 = plt.figure(figsize=(10, 8))
-    ax2 = fig2.add_subplot(111, projection='3d')
-    
-    for E_mag in E_magnitudes:
-        E_field = lambda pos, t: np.array([0, E_mag, 0])  # E field in y-direction
-        B_field = lambda pos, t: np.array([0, 0, B_magnitude])  # B field in z-direction
-        
-        init_state = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])  # Starting from rest
-        
-        _, trajectories = simulate_particle_motion(
-            init_state, q_e, m_e, E_field, B_field, 1e-8, 1e-11
-        )
-        
-        # Theoretical drift velocity
-        drift_v = E_mag / B_magnitude
-        
-        ax2.plot(trajectories[:, 0], trajectories[:, 1], trajectories[:, 2], 
-                 label=f'E = {E_mag} V/m, v_drift = {drift_v} m/s')
-    
-    ax2.set_xlabel('X [m]')
-    ax2.set_ylabel('Y [m]')
-    ax2.set_zlabel('Z [m]')
-    ax2.set_title('E×B Drift for Different Electric Field Strengths')
-    ax2.legend()
-    plt.tight_layout()
-    plt.savefig('ExB_drift.png')
-    plt.close()
+### 2D Projections in xy, xz, and yz planes:
+- Helps identify motion patterns in each plane
+- Circular orbits appear as circles when viewed perpendicular to B
+- Helical orbits appear as sinusoids when viewed perpendicular to the helix axis
 
-# Run advanced visualizations
-advanced_visualizations()
-```
+### 3D Trajectory Plots:
+- Show complete spatial motion
+- Help visualize helical trajectories and drifts in 3D space
+- Start and end points are marked for clarity
 
-## 5. Relating Results to Practical Systems
+### Physical Parameters Display:
+- Larmor radius calculation
+- Drift velocity vector for crossed fields
+- These quantitative measures help connect the visual patterns to physical theory
 
-Let's discuss how our simulation results relate to real-world applications.
+## 5. Discussion on Practical Systems
 
-### Cyclotrons and Particle Accelerators
+### Cyclotrons
+- **Working Principle**: Cyclotrons use perpendicular electric and magnetic fields to accelerate charged particles in a spiral path.
+- **Simulation Relevance**: Our uniform magnetic field simulation shows the circular orbits that form the basis of cyclotron operation.
+- **Key Physics**: The magnetic field creates circular trajectories, while precisely timed electric fields add energy at each half-orbit.
+- **Critical Parameters**:
+  - The cyclotron frequency ωc = qB/m must match the orbital frequency
+  - As particles gain energy, relativistic effects eventually limit conventional cyclotrons
 
-Our simulations of charged particles in magnetic fields demonstrate the fundamental principle behind cyclotrons. In a cyclotron:
-
-1. Charged particles follow circular paths in a uniform magnetic field.
-2. The radius of the path increases as the particle gains energy.
-3. Electric fields are applied in synchronized pulses to accelerate the particles.
-
-The key parameters we explored, such as the dependence of the Larmor radius on particle energy, directly relate to cyclotron design. For a particle of mass $m$, charge $q$, and velocity $v$ in a magnetic field $B$, the radius of the circular path is:
-
-$$r = \frac{mv}{qB}$$
-
-This means:
-- Higher energy particles require stronger magnetic fields to maintain their orbit.
-- The cyclotron frequency, $\omega = qB/m$, depends on the charge-to-mass ratio.
-- For non-relativistic particles, this frequency remains constant as energy increases.
+### Magnetic Traps
+- **Working Principle**: Magnetic traps confine charged particles using carefully shaped magnetic fields.
+- **Simulation Relevance**: Our helical orbit simulations demonstrate the basic principle of charged particle confinement along field lines.
+- **Types of Traps**:
+  - Magnetic Mirrors: Increasing field strength at ends reflects particles with appropriate pitch angles
+  - Magnetic Bottles: Series of mirrors creating containment regions
+  - Tokamaks: Toroidal configuration of magnetic fields for plasma confinement
+- **Confinement Challenges**: Drift motions and instabilities can lead to particle losses
 
 ### Mass Spectrometers
+- **Working Principle**: Mass spectrometers separate ions based on their charge-to-mass ratios.
+- **Simulation Relevance**: Our uniform B field simulations show how particles of different masses follow different radius orbits.
+- **Key Physics**: For particles with the same energy, radius ∝ (m/q)½, allowing separation and identification
+- **Applications**: Chemical analysis, isotope separation, proteomics
 
-Our simulations also illustrate the principle of mass spectrometry. In a typical sector-field mass spectrometer:
+### Hall Effect Devices
+- **Working Principle**: Hall effect devices exploit the E×B drift to generate measurable voltages or propulsion.
+- **Simulation Relevance**: Our crossed fields simulations demonstrate the drift velocity that underlies Hall effect devices.
+- **Applications**:
+  - Hall Sensors: Measure magnetic field strength
+  - Hall Thrusters: Use crossed E×B fields for spacecraft propulsion
 
-1. Ions with the same energy but different masses follow circular paths with different radii.
-2. The radius is directly proportional to the mass and inversely proportional to the charge.
-3. By measuring the position where ions hit a detector, their mass-to-charge ratio can be determined.
+## 6. Suggestions for Extension
 
-This is described by the equation:
+### Non-Uniform Fields
+- Implement magnetic mirrors with B = B₀(1 + αz²) to observe particle reflection
+- Model tokamak-like fields with toroidal geometry to simulate plasma confinement
+- Simulate magnetic cusps to observe particle focusing and leakage
 
-$$\frac{m}{q} = \frac{rB}{v}$$
+### Time-Varying Fields
+- Add RF acceleration with time-varying electric fields to model particle accelerators
+- Implement wave-particle interactions to simulate plasma heating
+- Model cyclotron resonance with rotating electric fields
 
-Our parameter exploration showing how different particles (electron, proton, alpha particle) behave in the same field demonstrates this principle in action.
+### Multiple Particles
+- Simulate particle beams with statistical distributions of initial conditions
+- Include space charge effects with inter-particle Coulomb forces
+- Model collective behaviors like plasma oscillations and instabilities
 
-### Plasma Confinement
+### Relativistic Effects
+- Implement relativistic equations of motion for high-energy particles
+- Observe effects on gyroradius and gyrofrequency at relativistic speeds
+- Model synchrotron radiation from relativistic charged particles in magnetic fields
 
-The simulations of charged particles in magnetic fields demonstrate why magnetic confinement works for plasma:
-
-1. In a purely magnetic field, charged particles are confined to spiral along field lines.
-2. Without collisions or field gradients, particles remain trapped.
-3. In real devices like tokamaks, carefully shaped magnetic fields create a "magnetic bottle" to confine the plasma.
-
-However, our E×B drift simulations show one of the challenges in plasma confinement:
-
-1. Any electric field component perpendicular to the magnetic field causes the plasma to drift.
-2. This drift is independent of particle mass or charge.
-3. In real confinement devices, various drifts (E×B, gradient, curvature) must be carefully managed.
-
-## 6. Suggestions for Further Extensions
-
-The simulations could be extended in several ways:
-
-1. **Non-uniform Fields**:
-   - Implement gradient and curvature drifts by simulating non-uniform magnetic fields.
-   - Simulate magnetic mirror configurations with converging field lines.
-   - Model the magnetic field of a current loop or a dipole.
-
-2. **Relativistic Effects**:
-   - Modify the equations of motion to account for relativistic effects at high energies.
-   - Explore synchrotron radiation in high-energy circular accelerators.
-
-3. **Collective Effects**:
-   - Simulate multiple particles and include their interactions.
-   - Model simple plasma behaviors like plasma oscillations and waves.
-
-4. **Time-Varying Fields**:
-   - Implement time-dependent electric and magnetic fields.
-   - Simulate particle acceleration in RF cavities.
-   - Model cyclotron and synchrotron operation with alternating electric fields.
-
-5. **Real Device Geometries**:
-   - Implement more complex field configurations based on actual devices.
-   - Simulate particle trajectories in a cyclotron or tokamak geometry.
+### Quantum Effects
+- Incorporate quantum mechanical aspects for electron motion in atoms
+- Model Landau levels in strong magnetic fields
+- Simulate Aharonov-Bohm effect for quantum particles in electromagnetic fields
 
 ## Conclusion
 
-Through these simulations, we've explored the fundamental behavior of charged particles under the influence of the Lorentz force. We've visualized circular, helical, and drift motions and examined how key parameters affect particle trajectories. These simulations provide insight into the working principles of important technologies like particle accelerators, mass spectrometers, and plasma confinement devices.
+This simulation provides a powerful tool for exploring the behavior of charged particles in electromagnetic fields. The Lorentz force, while simple in its mathematical form, gives rise to complex and fascinating dynamics that form the basis for numerous scientific and technological applications. By systematically varying parameters and field configurations, we can develop an intuitive understanding of these dynamics and their practical implications.
 
-The Lorentz force, though simple in its mathematical formulation, gives rise to complex and fascinating particle behaviors that are foundational to modern physics and technology. Our computational approach allows us to visualize and understand these behaviors in ways that would be difficult to achieve through analytical methods alone.
+The implemented code serves as a foundation that can be extended to explore increasingly complex scenarios, ultimately bridging the gap between theoretical electromagnetics and real-world applications in plasma physics, particle accelerators, and beyond.
