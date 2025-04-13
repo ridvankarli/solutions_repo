@@ -55,6 +55,7 @@ plt.title('Projectile Range vs. Angle')
 plt.grid()
 plt.show()
 ```
+![alt text](1.png)
 
 ## 6. Results & Discussion
 The simulation confirms that range is maximized at \( 45^\circ \). The relationship is symmetric, meaning \( 30^\circ \) and \( 60^\circ \) yield the same range.
