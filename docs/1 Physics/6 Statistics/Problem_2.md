@@ -95,6 +95,8 @@ for num_points in num_points_list:
 for n, pi_est in zip(num_points_list, results):
     print(f"Points: {n:,}, π estimate: {pi_est:.10f}, Error: {abs(pi_est - np.pi):.10f}")
 ```
+![alt text](1-1.png)
+![alt text](2-1.png)
 
 The accuracy of our π estimate improves as we increase the number of random points. Here are typical results:
 
@@ -208,7 +210,8 @@ def visualize_buffon_needle(y_positions, angles, crossings, needle_length, line_
     
     return plt
 ```
-
+![alt text](3-1.png)
+![alt text](4-1.png)
 ### 4. Analysis of Convergence and Comparison
 
 ```python
@@ -291,6 +294,8 @@ plt.grid(True)
 plt.legend()
 plt.savefig('error_comparison.png')
 ```
+![alt text](Unknown-1.png)
+![alt text](Unknown-2.png)
 
 ### Conclusion
 
