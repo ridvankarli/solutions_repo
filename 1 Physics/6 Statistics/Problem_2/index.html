@@ -54,7 +54,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal">2 Gravity</a>
 <ul>
-<li class="toctree-l2"><a class="reference internal" href="../../2%20Gravity/Problem_1/">Problem 1</a>
+<li class="toctree-l2"><a class="reference internal" href="../../2%20Gravity/Problem_1/">Gravity: Kepler's Third Law and Orbital Mechanics</a>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../2%20Gravity/Problem_2/">Problem 2</a>
 </li>
@@ -250,6 +250,8 @@ for num_points in num_points_list:
 for n, pi_est in zip(num_points_list, results):
     print(f"Points: {n:,}, π estimate: {pi_est:.10f}, Error: {abs(pi_est - np.pi):.10f}")
 </code></pre>
+<p><img alt="alt text" src="../1-1.png"/>
+<img alt="alt text" src="../2-1.png"/></p>
 <p>The accuracy of our π estimate improves as we increase the number of random points. Here are typical results:</p>
 <table>
 <thead>
@@ -371,6 +373,8 @@ def buffon_needle_simulation(num_drops, needle_length, line_distance):
 
     return plt
 </code></pre>
+<p><img alt="alt text" src="../3-1.png"/>
+<img alt="alt text" src="../4-1.png"/></p>
 <h3 id="4-analysis-of-convergence-and-comparison">4. Analysis of Convergence and Comparison</h3>
 <pre><code class="language-python"># Parameters
 needle_length = 0.8  # Length of the needle
@@ -481,6 +485,8 @@ plt.grid(True)
 plt.legend()
 plt.savefig('error_comparison.png')
 </code></pre>
+<p><img alt="alt text" src="../Unknown-1.png"/>
+<img alt="alt text" src="../Unknown-2.png"/></p>
 <h3 id="conclusion">Conclusion</h3>
 <p>Both the circle-based Monte Carlo method and Buffon's Needle provide interesting approaches to estimating π through randomization:</p>
 <ol>
