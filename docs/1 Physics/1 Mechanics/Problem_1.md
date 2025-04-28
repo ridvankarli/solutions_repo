@@ -4,38 +4,48 @@
 ## Motivation
 Projectile motion is a fundamental concept in physics with applications in sports, engineering, and astrophysics. This study explores how the range of a projectile depends on the angle of projection.
 
-1. Theoretical Foundation
-Governing Equations
+# 1. Theoretical Foundation
+
+## Governing Equations
+
 Projectile motion follows Newton's second law, and we assume motion under constant acceleration due to gravity, ignoring air resistance.
 
-The horizontal motion is governed by:
+- The horizontal motion is governed by:
 
-x=v0cos⁡(θ)tx = v_0 \cos(\theta)tx=v0​cos(θ)t
+  `$x = v_0 \cos(\theta)t$`
 
-The vertical motion follows:
+- The vertical motion follows:
 
-y=v0sin⁡(θ)t−12gt2y = v_0 \sin(\theta)t - \frac{1}{2}gt^2y=v0​sin(θ)t−21​gt2
-Solving for the time of flight when the projectile returns to the ground ($(y = 0)$):
-tf=2v0sin⁡(θ)gt_f = \frac{2v_0 \sin(\theta)}{g}tf​=g2v0​sin(θ)​
+  `$y = v_0 \sin(\theta)t - \frac{1}{2}gt^2$`
+
+Solving for the time of flight when the projectile returns to the ground (`$y = 0$`):
+
+  `$t_f = \frac{2v_0 \sin(\theta)}{g}$`
+
 The range, which is the horizontal distance traveled, is given by:
-R=v0cos⁡(θ)tf=v02sin⁡(2θ)gR = v_0 \cos(\theta)t_f = \frac{v_0^2 \sin(2\theta)}{g}R=v0​cos(θ)tf​=gv02​sin(2θ)​
-Family of Solutions
 
-The range is maximized when $\theta = 45°$, as $\sin(2\theta)$ reaches its peak at this angle.
-Different values of $v_0$ and $g$ shift the entire curve up or down, affecting the overall range.
+  `$R = v_0 \cos(\theta)t_f = \frac{v_0^2 \sin(2\theta)}{g}$`
 
-2. Analysis of the Range
+## Family of Solutions
+
+- The range is maximized when (`$\theta = 45^\circ$`), as (`$\sin(2\theta)$`) reaches its peak at this angle.
+- Different values of (`$v_0$`) and (`$g$`) shift the entire curve up or down, affecting the overall range.
+
+# 2. Analysis of the Range
 
 The function
 
-R(θ)=v02sin⁡(2θ)gR(\theta) = \frac{v_0^2 \sin(2\theta)}{g}R(θ)=gv02​sin(2θ)​
+  `$R(\theta) = \frac{v_0^2 \sin(2\theta)}{g}$`
+
 follows a sinusoidal form, reaching its peak at 45 degrees.
 
-Increasing $v_0$ increases the range quadratically.
-A higher gravitational acceleration $g$ decreases the range.
-If the projectile is launched from a height $h$, the range expression becomes more complex:
+- Increasing (`$v_0$`) increases the range quadratically.
+- A higher gravitational acceleration (`$g$`) decreases the range.
 
-$R = \frac{v_0 \cos(\theta)}{g}\left(v_0 \sin(\theta) + \sqrt{(v_0 \sin(\theta))^2 + 2gh}\right)$
+If the projectile is launched from a height (`$h$`), the range expression becomes more complex:
+
+  `$R = \frac{v_0 \cos(\theta)}{g} \left( v_0 \sin(\theta) + \sqrt{(v_0 \sin(\theta))^2 + 2gh} \right)$`
+
 
 ## 3. Range Analysis
 - **Angle Effect**: Range is maximized at \( 45^\circ \) and symmetric around it.
