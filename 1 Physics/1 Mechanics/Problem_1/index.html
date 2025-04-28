@@ -175,32 +175,36 @@
 <h1 id="investigating-the-range-as-a-function-of-the-angle-of-projection">Investigating the Range as a Function of the Angle of Projection</h1>
 <h2 id="motivation">Motivation</h2>
 <p>Projectile motion is a fundamental concept in physics with applications in sports, engineering, and astrophysics. This study explores how the range of a projectile depends on the angle of projection.</p>
-<ol>
-<li>Theoretical Foundation
-Governing Equations
-Projectile motion follows Newton's second law, and we assume motion under constant acceleration due to gravity, ignoring air resistance.</li>
-</ol>
-<p>The horizontal motion is governed by:</p>
-<p>x=v0cos⁡(θ)tx = v_0 \cos(\theta)tx=v0​cos(θ)t</p>
-<p>The vertical motion follows:</p>
-<p>y=v0sin⁡(θ)t−12gt2y = v_0 \sin(\theta)t - \frac{1}{2}gt^2y=v0​sin(θ)t−21​gt2
-Solving for the time of flight when the projectile returns to the ground (<span class="arithmatex">\((y = 0)\)</span>):
-tf=2v0sin⁡(θ)gt_f = \frac{2v_0 \sin(\theta)}{g}tf​=g2v0​sin(θ)​
-The range, which is the horizontal distance traveled, is given by:
-R=v0cos⁡(θ)tf=v02sin⁡(2θ)gR = v_0 \cos(\theta)t_f = \frac{v_0^2 \sin(2\theta)}{g}R=v0​cos(θ)tf​=gv02​sin(2θ)​
-Family of Solutions</p>
-<p>The range is maximized when <span class="arithmatex">\(\theta = 45°\)</span>, as <span class="arithmatex">\(\sin(2\theta)\)</span> reaches its peak at this angle.
-Different values of <span class="arithmatex">\(v_0\)</span> and <span class="arithmatex">\(g\)</span> shift the entire curve up or down, affecting the overall range.</p>
-<ol>
-<li>Analysis of the Range</li>
-</ol>
+<h1 id="1-theoretical-foundation">1. Theoretical Foundation</h1>
+<h2 id="governing-equations">Governing Equations</h2>
+<p>Projectile motion follows Newton's second law, and we assume motion under constant acceleration due to gravity, ignoring air resistance.</p>
+<ul>
+<li>The horizontal motion is governed by:</li>
+</ul>
+<p><code>$x = v_0 \cos(\theta)t$</code></p>
+<ul>
+<li>The vertical motion follows:</li>
+</ul>
+<p><code>$y = v_0 \sin(\theta)t - \frac{1}{2}gt^2$</code></p>
+<p>Solving for the time of flight when the projectile returns to the ground (<code>$y = 0$</code>):</p>
+<p><code>$t_f = \frac{2v_0 \sin(\theta)}{g}$</code></p>
+<p>The range, which is the horizontal distance traveled, is given by:</p>
+<p><code>$R = v_0 \cos(\theta)t_f = \frac{v_0^2 \sin(2\theta)}{g}$</code></p>
+<h2 id="family-of-solutions">Family of Solutions</h2>
+<ul>
+<li>The range is maximized when (<code>$\theta = 45^\circ$</code>), as (<code>$\sin(2\theta)$</code>) reaches its peak at this angle.</li>
+<li>Different values of (<code>$v_0$</code>) and (<code>$g$</code>) shift the entire curve up or down, affecting the overall range.</li>
+</ul>
+<h1 id="2-analysis-of-the-range">2. Analysis of the Range</h1>
 <p>The function</p>
-<p>R(θ)=v02sin⁡(2θ)gR(\theta) = \frac{v_0^2 \sin(2\theta)}{g}R(θ)=gv02​sin(2θ)​
-follows a sinusoidal form, reaching its peak at 45 degrees.</p>
-<p>Increasing <span class="arithmatex">\(v_0\)</span> increases the range quadratically.
-A higher gravitational acceleration <span class="arithmatex">\(g\)</span> decreases the range.
-If the projectile is launched from a height <span class="arithmatex">\(h\)</span>, the range expression becomes more complex:</p>
-<p><span class="arithmatex">\(R = \frac{v_0 \cos(\theta)}{g}\left(v_0 \sin(\theta) + \sqrt{(v_0 \sin(\theta))^2 + 2gh}\right)\)</span></p>
+<p><code>$R(\theta) = \frac{v_0^2 \sin(2\theta)}{g}$</code></p>
+<p>follows a sinusoidal form, reaching its peak at 45 degrees.</p>
+<ul>
+<li>Increasing (<code>$v_0$</code>) increases the range quadratically.</li>
+<li>A higher gravitational acceleration (<code>$g$</code>) decreases the range.</li>
+</ul>
+<p>If the projectile is launched from a height (<code>$h$</code>), the range expression becomes more complex:</p>
+<p><code>$R = \frac{v_0 \cos(\theta)}{g} \left( v_0 \sin(\theta) + \sqrt{(v_0 \sin(\theta))^2 + 2gh} \right)$</code></p>
 <h2 id="3-range-analysis">3. Range Analysis</h2>
 <ul>
 <li><strong>Angle Effect</strong>: Range is maximized at <span class="arithmatex">\( 45^\circ \)</span> and symmetric around it.</li>
