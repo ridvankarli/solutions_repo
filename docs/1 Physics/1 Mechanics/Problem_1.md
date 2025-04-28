@@ -21,8 +21,8 @@ The range, which is the horizontal distance traveled, is given by:
 R=v0cos⁡(θ)tf=v02sin⁡(2θ)gR = v_0 \cos(\theta)t_f = \frac{v_0^2 \sin(2\theta)}{g}R=v0​cos(θ)tf​=gv02​sin(2θ)​
 Family of Solutions
 
-The range is maximized when ($\theta = 45°$), as $\sin(2\theta)$ reaches its peak at this angle.
-Different values of ($v_0$) and ($g$) shift the entire curve up or down, affecting the overall range.
+The range is maximized when $\theta = 45°$, as $\sin(2\theta)$ reaches its peak at this angle.
+Different values of $v_0$ and $g$ shift the entire curve up or down, affecting the overall range.
 
 2. Analysis of the Range
 
@@ -31,9 +31,9 @@ The function
 R(θ)=v02sin⁡(2θ)gR(\theta) = \frac{v_0^2 \sin(2\theta)}{g}R(θ)=gv02​sin(2θ)​
 follows a sinusoidal form, reaching its peak at 45 degrees.
 
-Increasing ($v_0$) increases the range quadratically.
-A higher gravitational acceleration ($g$) decreases the range.
-If the projectile is launched from a height ($h$), the range expression becomes more complex:
+Increasing $v_0$ increases the range quadratically.
+A higher gravitational acceleration $g$ decreases the range.
+If the projectile is launched from a height $h$, the range expression becomes more complex:
 
 R=v0cos⁡(θ)g(v0sin⁡(θ)+(v0sin⁡(θ))2+2gh)R = \frac{v_0 \cos(\theta)}{g}\left(v_0 \sin(\theta) + \sqrt{(v_0 \sin(\theta))^2 + 2gh}\right)R=gv0​cos(θ)​(v0​sin(θ)+(v0​sin(θ))2+2gh​)
 
