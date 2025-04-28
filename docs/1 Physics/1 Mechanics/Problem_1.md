@@ -35,7 +35,7 @@ Increasing $v_0$ increases the range quadratically.
 A higher gravitational acceleration $g$ decreases the range.
 If the projectile is launched from a height $h$, the range expression becomes more complex:
 
-R=v0cos⁡(θ)g(v0sin⁡(θ)+(v0sin⁡(θ))2+2gh)R = \frac{v_0 \cos(\theta)}{g}\left(v_0 \sin(\theta) + \sqrt{(v_0 \sin(\theta))^2 + 2gh}\right)R=gv0​cos(θ)​(v0​sin(θ)+(v0​sin(θ))2+2gh​)
+$R=v0cos⁡(θ)g(v0sin⁡(θ)+(v0sin⁡(θ))2+2gh)R = \frac{v_0 \cos(\theta)}{g}\left(v_0 \sin(\theta) + \sqrt{(v_0 \sin(\theta))^2 + 2gh}\right)R=gv0​cos(θ)​(v0​sin(θ)+(v0​sin(θ))2+2gh​)$
 
 ## 3. Range Analysis
 - **Angle Effect**: Range is maximized at \( 45^\circ \) and symmetric around it.
