@@ -1,30 +1,41 @@
 # Problem 1
 # Investigating the Range as a Function of the Angle of Projection
 
-## 1. Motivation
+## Motivation
 Projectile motion is a fundamental concept in physics with applications in sports, engineering, and astrophysics. This study explores how the range of a projectile depends on the angle of projection.
 
-## 2. Key Equations  
+1. Theoretical Foundation
+Governing Equations
+Projectile motion follows Newton's second law, and we assume motion under constant acceleration due to gravity, ignoring air resistance.
 
-### Equations of Motion  
-- **Horizontal position:**  
-  $$ x(t) = v_0 \cos(\theta) t $$
+The horizontal motion is governed by:
 
-- **Vertical position:**  
-  $$ y(t) = v_0 \sin(\theta) t - \frac{1}{2} g t^2 $$
+x=v0cos⁡(θ)tx = v_0 \cos(\theta)tx=v0​cos(θ)t
 
-### Time of Flight  
-$$ T = \frac{2 v_0 \sin(\theta)}{g} $$
+The vertical motion follows:
 
-### Maximum Height  
-$$ H = \frac{(v_0 \sin(\theta))^2}{2g} $$
+y=v0sin⁡(θ)t−12gt2y = v_0 \sin(\theta)t - \frac{1}{2}gt^2y=v0​sin(θ)t−21​gt2
+Solving for the time of flight when the projectile returns to the ground ($(y = 0)$):
+tf=2v0sin⁡(θ)gt_f = \frac{2v_0 \sin(\theta)}{g}tf​=g2v0​sin(θ)​
+The range, which is the horizontal distance traveled, is given by:
+R=v0cos⁡(θ)tf=v02sin⁡(2θ)gR = v_0 \cos(\theta)t_f = \frac{v_0^2 \sin(2\theta)}{g}R=v0​cos(θ)tf​=gv02​sin(2θ)​
+Family of Solutions
 
-### Horizontal Range  
-$$ R = \frac{v_0^2 \sin(2\theta)}{g} $$
+The range is maximized when ($\theta = 45°$), as $\sin(2\theta)$ reaches its peak at this angle.
+Different values of ($v_0$) and ($g$) shift the entire curve up or down, affecting the overall range.
 
-The maximum range occurs at:  
-$$ \theta = 45^\circ $$
+2. Analysis of the Range
 
+The function
+
+R(θ)=v02sin⁡(2θ)gR(\theta) = \frac{v_0^2 \sin(2\theta)}{g}R(θ)=gv02​sin(2θ)​
+follows a sinusoidal form, reaching its peak at 45 degrees.
+
+Increasing ($v_0$) increases the range quadratically.
+A higher gravitational acceleration ($g$) decreases the range.
+If the projectile is launched from a height ($h$), the range expression becomes more complex:
+
+R=v0cos⁡(θ)g(v0sin⁡(θ)+(v0sin⁡(θ))2+2gh)R = \frac{v_0 \cos(\theta)}{g}\left(v_0 \sin(\theta) + \sqrt{(v_0 \sin(\theta))^2 + 2gh}\right)R=gv0​cos(θ)​(v0​sin(θ)+(v0​sin(θ))2+2gh​)
 
 ## 3. Range Analysis
 - **Angle Effect**: Range is maximized at \( 45^\circ \) and symmetric around it.
